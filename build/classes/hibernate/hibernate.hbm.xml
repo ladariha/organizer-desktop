@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class dynamic-insert="false" dynamic-update="false" mutable="true" name="classes.Uzivatel" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="uzivatel">
+    <id column="id" name="id" type="integer">
+      <generator class="increment"/>
+    </id>
+    <property column="email" name="email" type="string" unique="true"/>
+    <property column="jmeno" name="jmeno" type="string"/>
+    <property column="stitky" name="stitky" type="string"/>
+    <property column="prijmeni" name="prijmeni" type="string"/>
+    <one-to-one class="classes.Ucet" name="ucet"/>
+  </class>
+  <class dynamic-insert="false" dynamic-update="false" mutable="true" name="classes.Ucet" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="ucet">
+    <id column="id" name="id" type="integer">
+      <generator class="increment"/>
+    </id>
+    <property column="username" name="username" unique="true"/>
+    <property column="password" name="password"/>
+  </class>
+  <class dynamic-insert="false" dynamic-update="false" lazy="false" mutable="true" name="classes.Adresa" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="adresa">
+    <id column="id" name="id" type="integer">
+      <generator class="increment"/>
+    </id>
+    <property column="cp" name="cp" type="string"/>
+    <property column="mesto" name="mesto" type="string"/>
+    <property column="psc" name="psc" type="integer"/>
+    <property column="typ" name="typ" type="string"/>
+    <property column="ulice" name="ulice" type="string"/>
+    <property column="idPolozky" name="idPolozky" type="integer"/>
+  </class>
+  <class dynamic-insert="false" dynamic-update="false" lazy="false" mutable="true" name="classes.ObecnyKontakt" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="kontakt">
+    <id column="id" name="id" type="integer">
+      <generator class="increment"/>
+    </id>
+    <property column="hodnota" name="hodnota" type="string"/>
+    <property column="idPolozky" name="idPolozky" type="integer"/>
+    <property column="oznaceni" name="oznaceni" type="string"/>
+    <property column="typ" name="typ" type="string"/>
+    <property column="typ2" name="typ2" type="string"/>
+  </class>
+  <class dynamic-insert="false" dynamic-update="false" lazy="false" mutable="true" name="classes.Polozka" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="polozka">
+    <id column="id" name="id" type="integer">
+      <generator class="increment"/>
+    </id>
+    <property column="jmeno" name="jmeno" type="string"/>
+    <property column="prijmeni" name="prijmeni" type="string"/>
+    <property column="stitek" name="stitek" type="string"/>
+    <set inverse="true" name="adresy" table="adresa">
+      <key column="idPolozky"/>
+      <one-to-many class="classes.Adresa"/>
+    </set>
+    <set inverse="true" name="kontakty" table="kontakt">
+      <key column="idPolozky"/>
+      <one-to-many class="classes.ObecnyKontakt"/>
+    </set>
+    <property column="adresar_id" name="idAdresare" type="integer"/>
+    <property column="pismeno" name="searchLetter" type="string"/>
+  </class>
+  <class dynamic-insert="false" dynamic-update="false" lazy="false" mutable="true" name="classes.Adresar" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="adresar">
+    <id column="id" name="id" type="integer">
+      <generator class="increment"/>
+    </id>
+    <property column="idVlastnika" name="idVlastnika" not-null="true" type="integer"/>
+    <set name="polozky" table="polozka">
+      <key column="adresar_id"/>
+      <one-to-many class="classes.Polozka"/>
+    </set>
+  </class>
+</hibernate-mapping>
