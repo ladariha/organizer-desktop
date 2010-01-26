@@ -20,10 +20,13 @@ import java.util.ArrayList;
  */
 public class GoogleImportDialog extends javax.swing.JDialog {
 
-    private int idU;
-    public String group;
-
-    /** Creates new form GoogleImportDialog */
+    /** Creates new form GoogleImportDialog
+     * @param parent
+     * @param letter
+     * @param modal
+     * @param mw
+     * @param idUser
+     */
     public GoogleImportDialog(java.awt.Frame parent, boolean modal, int idUser, String letter, MainWindow mw) {
         super(parent, modal);
         mainWindow = mw;
@@ -203,6 +206,10 @@ public class GoogleImportDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Imports contacts from selected group
+     * @param evt
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         int imported = 0;
@@ -281,4 +288,6 @@ public class GoogleImportDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
     private MainWindow mainWindow;
     public boolean pickClosed = false;
+    private int idU;
+    public String group;
 }

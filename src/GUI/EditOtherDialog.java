@@ -23,7 +23,13 @@ public class EditOtherDialog extends javax.swing.JDialog {
     private int idOther;
     private ObecnyKontakt other;
 
-    /** Creates new form AddressDialog */
+    /** Creates new form AddressDialog
+     * @param parent
+     * @param modal
+     * @param iDialog
+     * @param idP
+     * @param id
+     */
     public EditOtherDialog(java.awt.Frame parent, boolean modal, int idP, ItemDialog iDialog, int id) {
         super(parent, modal);
         this.iDialog = iDialog;
@@ -151,7 +157,7 @@ public class EditOtherDialog extends javax.swing.JDialog {
         try {
             ContactManager.saveOther(kontakt);
         } catch (Exception ex) {
-            ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Error while saving IM", ex.getMessage());
+            ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Error while saving other", ex.getMessage());
             ed.setVisible(true);
         }
         iDialog.reCreate();

@@ -42,7 +42,13 @@ import javax.swing.JTextArea;
  */
 public class ItemDialog extends javax.swing.JDialog {
 
-    /** Creates new form ItemDialog */
+    /** Creates new form ItemDialog
+     * @param parent
+     * @param modal
+     * @param idItem
+     * @param idUser
+     * @param main
+     */
     public ItemDialog(java.awt.Frame parent, boolean modal, int idItem, int idUser, MainWindow main) {
         super(parent, false);
         try {
@@ -117,6 +123,9 @@ public class ItemDialog extends javax.swing.JDialog {
         }
     }
 
+    /**
+     *
+     */
     public void reCreate() {
         try {
             jPanel3.removeAll();

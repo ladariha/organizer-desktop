@@ -17,7 +17,12 @@ package GUI;
  */
 public class ErrorDialog extends javax.swing.JDialog {
 
-    /** Creates new form ErrorDialog */
+    /** Creates new form ErrorDialog
+     * @param parent
+     * @param modal
+     * @param shortMsg
+     * @param longMsg
+     */
     public ErrorDialog(java.awt.Frame parent, boolean modal, String shortMsg, String longMsg) {
         super(parent, modal);
         initComponents();

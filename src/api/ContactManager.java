@@ -14,35 +14,75 @@ import hibernate.*;
  */
 public class ContactManager {
 
+    /**
+     * Add address
+     * @param a address to Add
+     * @throws Exception
+     */
     public static void addAddress(Adresa a) throws Exception {
         DatabaseManager.addAddress(a);
     }
 
+    /**
+     * Add phone
+     * @param kontakt phone to Add
+     * @throws Exception
+     */
     public static void addPhone(ObecnyKontakt kontakt) throws Exception {
         DatabaseManager.addObecnyKontakt(kontakt);
     }
 
+    /**
+     * Add email
+     * @param kontakt email  to Add
+     * @throws Exception
+     */
     public static void addEmail(ObecnyKontakt kontakt) throws Exception {
         DatabaseManager.addObecnyKontakt(kontakt);
     }
 
+    /**
+     * Add im
+     * @param kontakt im to Add
+     * @throws Exception
+     */
     public static void addIm(ObecnyKontakt kontakt) throws Exception {
         DatabaseManager.addObecnyKontakt(kontakt);
     }
 
+    /**
+     * Add url
+     * @param kontakt url to Add
+     * @throws Exception
+     */
     public static void addUrl(ObecnyKontakt kontakt) throws Exception {
         DatabaseManager.addObecnyKontakt(kontakt);
     }
 
+    /**
+     * Add other
+     * @param kontakt other to Add
+     * @throws Exception
+     */
     public static void addOther(ObecnyKontakt kontakt) throws Exception {
         DatabaseManager.addObecnyKontakt(kontakt);
     }
 
+    /**
+ * Deletes address
+ * @param id ID of address to be deleted
+ * @throws Exception
+ */
     public static void deleteAddress(String id) throws Exception {
         int idItem = Integer.valueOf(id).intValue();
         DatabaseManager.deleteAddress(idItem);
     }
 
+    /**
+ * Deletes contact
+ * @param id ID of contact to be deleted
+ * @throws Exception
+ */
     public static void deleteItem(String id) throws Exception {
         int idItem = Integer.valueOf(id).intValue();
         DatabaseManager.deleteCommonContact(idItem);

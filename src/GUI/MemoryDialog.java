@@ -18,7 +18,11 @@ import api.ItemsManager;
  */
 public class MemoryDialog extends javax.swing.JDialog {
 
-    /** Creates new form MemoryDialog */
+    /** Creates new form MemoryDialog
+     * @param parent
+     * @param modal
+     * @param userID
+     */
     public MemoryDialog(java.awt.Frame parent, boolean modal, int userID) {
         super(parent, modal);
         initComponents();

@@ -39,6 +39,13 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
     }
 
+    /**
+     *
+     * @param id
+     * @param name
+     * @param lastname
+     * @param email
+     */
     public MainWindow(int id, String name, String lastname, String email) {
         this.userID = id;
         this.name = name;
@@ -55,6 +62,9 @@ public class MainWindow extends javax.swing.JFrame {
         setFilterMenu();
     }
 
+/**
+ * Generates list of all labels to customize displayed contacts
+ */
     public void setFilterMenu() {
         JCheckBox box = new JCheckBox("Contacts without labels");
         box.setSelected(true);
@@ -93,6 +103,10 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Adds or removes labels from visible list
+     * @param evt
+     */
     private void filterChangedAction(ActionEvent evt) {
         JCheckBox box = (JCheckBox) evt.getSource();
         if (box.isSelected()) {
@@ -105,6 +119,12 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Creates jbuttons for each contact and places them in jpanel
+     * @param p jPanel where all jButtons will be placed
+     * @param letter letter of contacts to be generated
+     * @param resetMenu if true, list of labels will be recreated
+     */
     public void createBussinessCard(JPanel p, String letter, boolean resetMenu) {
         if (resetMenu) {
             setFilterMenu();
@@ -170,6 +190,10 @@ public class MainWindow extends javax.swing.JFrame {
         p.revalidate();
     }
 
+    /**
+     * Opens new jDialog with details about selected contact
+     * @param evt
+     */
     private void showItem(java.awt.event.ActionEvent evt) {
         JButton source = (JButton) evt.getSource();
         final MainWindow mw = this;
@@ -852,6 +876,10 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Calls methods to show contacts of the selected letter
+     * @param evt
+     */
     private void selectLetter(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectLetter
         JButton jb = (JButton) evt.getSource();
         createBussinessCard(getHlavniPanel(), jb.getName(), false);
@@ -1056,6 +1084,9 @@ public class MainWindow extends javax.swing.JFrame {
         return hlavniPanel;
     }
 
+    /**
+     *
+     */
     public void setNumberOfContacts() {
         try {
             int pocet = ItemsManager.countItems(userID);
