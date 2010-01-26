@@ -22,7 +22,11 @@ import javax.swing.JCheckBox;
  */
 public class ExportXMLDialog1 extends javax.swing.JDialog {
 
-    /** Creates new form DeleteDialog */
+    /** Creates new form DeleteDialog
+     * @param parent
+     * @param modal
+     * @param idU
+     */
     public ExportXMLDialog1(java.awt.Frame parent, boolean modal, int idU) {
         super(parent, modal);
         this.idU = idU;
@@ -564,6 +568,10 @@ public class ExportXMLDialog1 extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Opens new dialog for file selection
+     * @param evt
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ExportXMLDialog2 exp = new ExportXMLDialog2(new javax.swing.JFrame(), rootPaneCheckingEnabled, idU, jmeno, prijmeni);
         exp.export = 1;
@@ -572,6 +580,10 @@ public class ExportXMLDialog1 extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+      /**
+     * Opens new dialog for file selection
+     * @param evt
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ExportXMLDialog2 exp = new ExportXMLDialog2(new javax.swing.JFrame(), rootPaneCheckingEnabled, idU, jmeno, prijmeni);
         exp.export = 2;
@@ -580,6 +592,10 @@ public class ExportXMLDialog1 extends javax.swing.JDialog {
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+        /**
+     * Adds or removes selected letter from list of letters to be exported
+     * @param evt
+     */
     private void letterSelectionAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_letterSelectionAction
         // TODO add your handling code here:
         JCheckBox box = (JCheckBox) evt.getSource();
@@ -590,6 +606,10 @@ public class ExportXMLDialog1 extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_letterSelectionAction
 
+          /**
+     * Opens new dialog for file selection
+     * @param evt
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         ExportXMLDialog2 exp = new ExportXMLDialog2(new javax.swing.JFrame(), rootPaneCheckingEnabled, idU, jmeno, prijmeni);
         exp.export = 3;
@@ -600,6 +620,10 @@ public class ExportXMLDialog1 extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
+
+        /**
+     * Generates all labels used in user's contacts a for each of them creates checkbox
+     */
     private void generateLabels() {
         try {
             String stitky = DatabaseManager.getUserLabels(idU);
@@ -629,7 +653,10 @@ public class ExportXMLDialog1 extends javax.swing.JDialog {
         }
 
     }
-
+    /**
+     * Adds or removes selected label from list of labels to be exported
+     * @param evt
+     */
     private void labelSelectionAction(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         JCheckBox box = (JCheckBox) evt.getSource();

@@ -119,7 +119,7 @@ public class ItemsManager {
         return (StringChecker.removeAccents(prijmeni)).substring(0, 1);
     }
 
-    private static int saveItem(Polozka p, int idA) throws Exception {
+    public static int saveItem(Polozka p, int idA) throws Exception {
         return DatabaseManager.saveItem(p, idA);
     }
 

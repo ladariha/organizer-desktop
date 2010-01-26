@@ -19,7 +19,12 @@ import classes.ObecnyKontakt;
  */
 public class EmailDialog extends javax.swing.JDialog {
 
-    /** Creates new form AddressDialog */
+    /** Creates new form AddressDialog
+     * @param parent
+     * @param modal
+     * @param iDialog
+     * @param idP
+     */
     public EmailDialog(java.awt.Frame parent, boolean modal, int idP, ItemDialog iDialog) {
         super(parent, modal);
         this.iDialog = iDialog;

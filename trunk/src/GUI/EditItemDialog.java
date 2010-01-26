@@ -18,7 +18,16 @@ import api.ItemsManager;
  */
 public class EditItemDialog extends javax.swing.JDialog {
 
-    /** Creates new form EditItemDialog */
+    /** Creates new form EditItemDialog
+     * @param parent
+     * @param modal
+     * @param prijmeni
+     * @param jmeno
+     * @param id
+     * @param idUser
+     * @param iDialog
+     * @param mw
+     */
     public EditItemDialog(java.awt.Frame parent, boolean modal, String jmeno, String prijmeni, int id, int idUser, ItemDialog iDialog, MainWindow mw) {
         super(parent, modal);
         initComponents();
@@ -42,6 +51,16 @@ public class EditItemDialog extends javax.swing.JDialog {
         jTextField1.setText(prijmeni);
     }
 
+    /**
+     *
+     * @param parent
+     * @param modal
+     * @param jmeno
+     * @param prijmeni
+     * @param id
+     * @param idUser
+     * @param mw
+     */
     public EditItemDialog(java.awt.Frame parent, boolean modal, String jmeno, String prijmeni, int id, int idUser, MainWindow mw) {
         super(parent, modal);
         this.idPolozky = id;
@@ -77,18 +96,12 @@ public class EditItemDialog extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12));
         jLabel1.setText("Edit contact");
 
         jLabel2.setText("Name:");
 
         jLabel3.setText("Lastname:");
-
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
 
         jButton1.setText("Edit");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -165,10 +178,6 @@ public class EditItemDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {

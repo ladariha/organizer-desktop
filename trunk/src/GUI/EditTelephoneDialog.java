@@ -23,7 +23,13 @@ public class EditTelephoneDialog extends javax.swing.JDialog {
     private int idPhone;
     private ObecnyKontakt phone;
 
-    /** Creates new form AddressDialog */
+    /** Creates new form AddressDialog
+     * @param parent
+     * @param modal
+     * @param idP
+     * @param id
+     * @param iDialog
+     */
     public EditTelephoneDialog(java.awt.Frame parent, boolean modal, int idP, ItemDialog iDialog, int id) {
         super(parent, modal);
         this.iDialog = iDialog;

@@ -18,7 +18,12 @@ import api.ItemsManager;
  */
 public class NewItemDialog extends javax.swing.JDialog {
 
-    /** Creates new form EditItemDialog */
+    /** Creates new form EditItemDialog
+     * @param parent
+     * @param modal
+     * @param idUser
+     * @param mw
+     */
     public NewItemDialog(java.awt.Frame parent, boolean modal, int idUser, MainWindow mw) {
         super(parent, modal);
         this.idUser = idUser;

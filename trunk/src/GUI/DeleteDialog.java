@@ -24,7 +24,11 @@ import javax.swing.JFrame;
  */
 public class DeleteDialog extends javax.swing.JDialog {
 
-    /** Creates new form DeleteDialog */
+    /** Creates new form DeleteDialog
+     * @param parent
+     * @param idU
+     * @param modal
+     */
     public DeleteDialog(java.awt.Frame parent, boolean modal, int idU) {
         super(parent, modal);
         this.idU = idU;
@@ -566,6 +570,10 @@ public class DeleteDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Deletes all contacts
+     * @param evt
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             ItemsManager.deleteItems(idU);
@@ -581,6 +589,10 @@ public class DeleteDialog extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    /**
+     * Deletes contacts by letter
+     * @param evt
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
             // TODO add your handling code here:
@@ -595,6 +607,10 @@ public class DeleteDialog extends javax.swing.JDialog {
            ed.setVisible(true);        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    /**
+     * Adds or removes selected letter from list of letters to be deleted
+     * @param evt
+     */
     private void letterSelectionAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_letterSelectionAction
         // TODO add your handling code here:
         JCheckBox box = (JCheckBox) evt.getSource();
@@ -605,6 +621,10 @@ public class DeleteDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_letterSelectionAction
 
+    /**
+     * Deletes contacts by label
+     * @param evt
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
             // TODO add your handling code here:
@@ -619,6 +639,9 @@ public class DeleteDialog extends javax.swing.JDialog {
            ed.setVisible(true);        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    /**
+     * Generates all labels used in user's contacts a for each of them creates checkbox
+     */
     private void generateLabels() {
         try {
             String stitky = DatabaseManager.getUserLabels(idU);
@@ -649,6 +672,10 @@ public class DeleteDialog extends javax.swing.JDialog {
 
     }
 
+    /**
+     * Adds or removes selected label from list of labels to be deleted
+     * @param evt
+     */
     private void labelSelectionAction(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         JCheckBox box = (JCheckBox) evt.getSource();

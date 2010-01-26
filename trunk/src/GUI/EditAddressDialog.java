@@ -23,7 +23,13 @@ public class EditAddressDialog extends javax.swing.JDialog {
     private Adresa adresa;
     private int idAdresa;
 
-    /** Creates new form AddressDialog */
+    /** Creates new form AddressDialog
+     * @param parent
+     * @param modal
+     * @param iDialog
+     * @param idP
+     * @param idAdresy
+     */
     public EditAddressDialog(java.awt.Frame parent, boolean modal, int idP, ItemDialog iDialog, int idAdresy) {
         super(parent, modal);
         idAdresa = idAdresy;
@@ -73,7 +79,7 @@ public class EditAddressDialog extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12));
         jLabel1.setText("Address");
 
         jLabel2.setText("Street:");
@@ -84,12 +90,6 @@ public class EditAddressDialog extends javax.swing.JDialog {
 
         jLabel5.setText("Postal Code:");
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("Edit");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,12 +98,6 @@ public class EditAddressDialog extends javax.swing.JDialog {
         });
 
         jLabel6.setText("Type:");
-
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/house.png"))); // NOI18N
 
@@ -192,10 +186,6 @@ public class EditAddressDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Adresa adresa = new Adresa();
@@ -222,10 +212,6 @@ public class EditAddressDialog extends javax.swing.JDialog {
         this.setVisible(false);
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
     /**
      * @param args the command line arguments
      */

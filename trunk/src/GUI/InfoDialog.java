@@ -16,7 +16,12 @@ package GUI;
  */
 public class InfoDialog extends javax.swing.JDialog {
 
-    /** Creates new form InfoDialog */
+    /** Creates new form InfoDialog
+     * @param parent
+     * @param text
+     * @param modal
+     * @param heading
+     */
     public InfoDialog(java.awt.Frame parent, boolean modal, String heading, String text) {
         super(parent, modal);
         initComponents();

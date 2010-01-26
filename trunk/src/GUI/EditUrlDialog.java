@@ -20,10 +20,15 @@ import util.StringChecker;
  */
 public class EditUrlDialog extends javax.swing.JDialog {
 
-    private int idUrl;
-    private ObecnyKontakt url;
 
-    /** Creates new form AddressDialog */
+
+    /** Creates new form AddressDialog
+     * @param parent
+     * @param modal
+     * @param idP
+     * @param iDialog
+     * @param id
+     */
     public EditUrlDialog(java.awt.Frame parent, boolean modal, int idP, ItemDialog iDialog, int id) {
         super(parent, modal);
         this.iDialog = iDialog;
@@ -161,6 +166,8 @@ public class EditUrlDialog extends javax.swing.JDialog {
      */
     private ItemDialog iDialog;
     private int idP;
+    private int idUrl;
+    private ObecnyKontakt url;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

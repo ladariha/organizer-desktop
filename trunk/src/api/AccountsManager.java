@@ -21,6 +21,16 @@ public class AccountsManager {
     private String lastname;
     private String email;
 
+    /**
+     * Registers new account
+     * @param jmeno user's name
+     * @param prijmeni user's lastname
+     * @param email user's email
+     * @param pole user's password
+     * @return true if new user has been registered
+     * @throws RegisterOrganizerException
+     * @throws Exception
+     */
     public boolean registerNewUser(String jmeno, String prijmeni, String email, char[] pole) throws RegisterOrganizerException, Exception {
         int vysledek = DatabaseManager.getUserIdByUsername(email);
         if (vysledek == -1) {

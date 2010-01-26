@@ -28,12 +28,22 @@ import javax.swing.JFrame;
  */
 public class GoogleExporDialog extends javax.swing.JDialog {
 
-    /** Creates new form GoogleExporDialog */
+    /** Creates new form GoogleExporDialog
+     * @param parent
+     * @param modal
+     */
     public GoogleExporDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
 
+    /**
+     *
+     * @param jFrame
+     * @param modal
+     * @param userID
+     * @param aThis
+     */
     public GoogleExporDialog(java.awt.Frame jFrame, boolean modal, int userID, MainWindow aThis) {
         super(jFrame, modal);
         this.idU = userID;
@@ -41,7 +51,9 @@ public class GoogleExporDialog extends javax.swing.JDialog {
         initComponents();
         generateLabels();
     }
-
+        /**
+     * Generates all labels used in user's contacts a for each of them creates checkbox
+     */
     private void generateLabels() {
         try {
             String stitky = DatabaseManager.getUserLabels(idU);
@@ -71,7 +83,10 @@ public class GoogleExporDialog extends javax.swing.JDialog {
         }
 
     }
-
+    /**
+     * Adds or removes selected label from list of labels to be exported
+     * @param evt
+     */
     private void labelSelectionAction(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         JCheckBox box = (JCheckBox) evt.getSource();
@@ -674,6 +689,10 @@ public class GoogleExporDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+         /**
+     * Adds or removes selected letter from list of letters to be exported
+     * @param evt
+     */
     private void jCheckBox1letterSelectionAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1letterSelectionAction
         // TODO add your handling code here:
         JCheckBox box = (JCheckBox) evt.getSource();
@@ -944,6 +963,10 @@ public class GoogleExporDialog extends javax.swing.JDialog {
         }
 }//GEN-LAST:event_jCheckBox35letterSelectionAction
 
+    /**
+ * Exports contact to Gmail
+ * @param evt
+ */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         if (jRadioButton1.isSelected()) {
@@ -1037,6 +1060,10 @@ public class GoogleExporDialog extends javax.swing.JDialog {
         }
 }//GEN-LAST:event_jButton2ActionPerformed
 
+    /**
+ * Exports contact to Gmail
+ * @param evt
+ */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         if (jRadioButton1.isSelected()) {
@@ -1130,6 +1157,10 @@ public class GoogleExporDialog extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    /**
+ * Exports contact to Gmail
+ * @param evt
+ */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 

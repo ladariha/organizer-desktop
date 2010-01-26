@@ -1,13 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * AddressDialog.java
- *
- * Created on 25.8.2009, 17:28:14
- */
 package GUI;
 
 import api.ContactManager;
@@ -20,10 +10,14 @@ import util.StringChecker;
  */
 public class EditEmailDialog extends javax.swing.JDialog {
 
-    private int idEmailu;
-    private ObecnyKontakt email;
 
-    /** Creates new form AddressDialog */
+    /** Creates new form AddressDialog
+     * @param parent
+     * @param modal
+     * @param idP
+     * @param iDialog
+     * @param id
+     */
     public EditEmailDialog(java.awt.Frame parent, boolean modal, int idP, ItemDialog iDialog, int id) {
         super(parent, modal);
         this.iDialog = iDialog;
@@ -179,4 +173,7 @@ public class EditEmailDialog extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+    private int idEmailu;
+    private ObecnyKontakt email;
+
 }

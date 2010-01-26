@@ -18,7 +18,13 @@ import java.util.ArrayList;
  */
 public class PickGoogleGroup extends javax.swing.JDialog {
 
-    /** Creates new form PickGoogleGroup */
+    /** Creates new form PickGoogleGroup
+     * @param parent
+     * @param modal
+     * @param groups
+     * @param groupsID
+     * @param importD
+     */
     public PickGoogleGroup(java.awt.Frame parent, boolean modal, ArrayList<String> groups, ArrayList<String> groupsID, GoogleImportDialog importD) {
         super(parent, modal);
         initComponents();
@@ -71,8 +77,8 @@ public class PickGoogleGroup extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel1.setText("Import contacst from Gmail");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12));
+        jLabel1.setText("Import contacts from Gmail");
 
         jButton1.setText("OK");
         jButton1.addActionListener(new java.awt.event.ActionListener() {

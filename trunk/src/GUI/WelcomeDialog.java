@@ -24,7 +24,10 @@ import javax.swing.JDialog;
  */
 public class WelcomeDialog extends javax.swing.JDialog {
 
-    /** Creates new form WelcomeDialog */
+    /** Creates new form WelcomeDialog
+     * @param parent
+     * @param modal
+     */
     public WelcomeDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         try {

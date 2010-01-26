@@ -20,10 +20,13 @@ import util.StringChecker;
  */
 public class EditImDialog extends javax.swing.JDialog {
 
-    private int idIm;
-    private ObecnyKontakt im;
-
-    /** Creates new form AddressDialog */
+    /** Creates new form AddressDialog
+     * @param parent
+     * @param modal
+     * @param idP
+     * @param iDialog
+     * @param id
+     */
     public EditImDialog(java.awt.Frame parent, boolean modal, int idP, ItemDialog iDialog, int id) {
         super(parent, modal);
         initComponents();
@@ -191,4 +194,7 @@ public class EditImDialog extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
+    private int idIm;
+    private ObecnyKontakt im;
+
 }

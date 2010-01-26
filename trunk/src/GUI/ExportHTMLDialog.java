@@ -13,10 +13,14 @@ import javax.xml.transform.TransformerException;
  */
 public class ExportHTMLDialog extends javax.swing.JDialog {
 
-    private int idU;
-    private String jmenoU;
-    private String prijmeniU;
-
+    /**
+     *
+     * @param parent
+     * @param modal
+     * @param idUser
+     * @param t1
+     * @param t2
+     */
     public ExportHTMLDialog(java.awt.Frame parent, boolean modal, int idUser, String t1, String t2) {
         super(parent, modal);
         this.idU = idUser;
@@ -24,7 +28,7 @@ public class ExportHTMLDialog extends javax.swing.JDialog {
         this.prijmeniU = t2;
         initComponents();
         jFileChooser1.addChoosableFileFilter(new FileNameExtensionFilter("HTML Document (*.html)", "html"));
- 
+
     }
 
     /** This method is called from within the constructor to
@@ -46,7 +50,7 @@ public class ExportHTMLDialog extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12));
         jLabel1.setText("Export contacts to HTML");
 
         jFileChooser1.setAcceptAllFileFilterUsed(false);
@@ -54,11 +58,6 @@ public class ExportHTMLDialog extends javax.swing.JDialog {
         jFileChooser1.setDialogTitle("");
         jFileChooser1.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
         jFileChooser1.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
-        jFileChooser1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFileChooser1ActionPerformed(evt);
-            }
-        });
 
         jButton1.setText("Export");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -108,10 +107,10 @@ public class ExportHTMLDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFileChooser1ActionPerformed
-
+    /**
+     * Exports contacts to selected file
+     * @param evt
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
@@ -141,4 +140,7 @@ public class ExportHTMLDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+    private int idU;
+    private String jmenoU;
+    private String prijmeniU;
 }

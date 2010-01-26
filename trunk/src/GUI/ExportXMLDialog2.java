@@ -19,6 +19,14 @@ public class ExportXMLDialog2 extends javax.swing.JDialog {
     private String jmenoU;
     private String prijmeniU;
 
+    /**
+     *
+     * @param parent
+     * @param modal
+     * @param idUser
+     * @param t1
+     * @param t2
+     */
     public ExportXMLDialog2(java.awt.Frame parent, boolean modal, int idUser, String t1, String t2) {
         super(parent, modal);
         this.idU = idUser;
@@ -190,7 +198,16 @@ public class ExportXMLDialog2 extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+    /**
+     *
+     */
     public int export = 0; // 1 all, 2 letter, 3 label
+    /**
+     *
+     */
     public Set<String> lettersToExport = new HashSet<String>();
+    /**
+     *
+     */
     public Set<String> labelsToExport = new HashSet<String>();
 }
