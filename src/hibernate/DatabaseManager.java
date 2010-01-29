@@ -95,7 +95,7 @@ public class DatabaseManager {
             labelsCondition = getLabelCondition(hiddenLabels);
         }
 
-    
+
         int idA = getAdresarIDbyUserID(id);
         if (idA != -1) {
             session.beginTransaction();
@@ -381,7 +381,7 @@ public class DatabaseManager {
         session.getTransaction().commit();
     }
 
-    public static void deleteItemsByLetter(Set<String> lettersToDelete, int idU) throws Exception{
+    public static void deleteItemsByLetter(Set<String> lettersToDelete, int idU) throws Exception {
         if (lettersToDelete.size() > 0) {
             int idAdresare = getAdresarIDbyUserID(idU);
             Session session = NewHibernateUtil.getSessionFactory().openSession();
@@ -474,6 +474,35 @@ public class DatabaseManager {
             return q.list();
         }
         return null;
+    }
+
+    public static List getItemsByStringSearch(int userID, String search) throws Exception {
+        Session session = NewHibernateUtil.getSessionFactory().openSession();
+        int idA = DatabaseManager.getAdresarIDbyUserID(userID);
+        session.beginTransaction();
+        String temp = "%" + search + "%";
+
+
+        Query q = session.createQuery("FROM Polozka  WHERE idAdresare=" + idA + " AND (jmeno LIKE ? OR prijmeni LIKE?)");
+        q.setString(0, temp);
+        q.setString(1, temp);
+        List<String> resultList = q.list();
+        session.getTransaction().commit();
+        return resultList;
+    }
+
+        public static List getItemsByStringSearchLabel(int userID, String search) throws Exception {
+        Session session = NewHibernateUtil.getSessionFactory().openSession();
+        int idA = DatabaseManager.getAdresarIDbyUserID(userID);
+        session.beginTransaction();
+        String temp = "%" + search + "%";
+
+
+        Query q = session.createQuery("FROM Polozka  WHERE idAdresare=" + idA + " AND stitek LIKE ? ");
+        q.setString(0, temp);
+        List<String> resultList = q.list();
+        session.getTransaction().commit();
+        return resultList;
     }
 
     private void executeHQLQuery(String hql) {

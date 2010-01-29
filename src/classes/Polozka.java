@@ -78,7 +78,7 @@ private String stitek;
 
     public void setSearchLetter(String searchLetter) {
         if(Character.isLetter(searchLetter.charAt(0))){
-        this.searchLetter = searchLetter;}else{
+        this.searchLetter = searchLetter.charAt(0)+"";}else{
         this.searchLetter = "#";
         }
     }
