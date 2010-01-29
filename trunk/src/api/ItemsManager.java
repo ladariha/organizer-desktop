@@ -56,6 +56,15 @@ public class ItemsManager {
         DatabaseManager.deleteItemsByLabel(labelsToDelete, idU);
     }
 
+
+    public static List getItemsByStringSearch(int userID,String  search)throws Exception{
+  return DatabaseManager.getItemsByStringSearch(userID, search);
+    }
+
+        public static List getItemsByStringSearchLabel(int userID,String  search)throws Exception{
+  return DatabaseManager.getItemsByStringSearchLabel(userID, search);
+    }
+
     public static List getItemsByID(int id, String letter, Set<String> hiddenLabels) throws Exception {
 
         return DatabaseManager.getItemsByID(id, letter, hiddenLabels);
@@ -1100,37 +1109,37 @@ public class ItemsManager {
     }
 
     public static String exportGmail(int idU, String username, char[] passwordChar, String name) throws AuthenticationException, ServiceException, MalformedURLException, IOException, Exception {
-        
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < passwordChar.length; i++) {
-                sb.append(passwordChar[i]);
-            }
-            String password = sb.toString();
-         
-            ArrayList<String> groups = getGmailGroups(username, passwordChar);
-            int i = 1;
-            String puvodni = name;
-            // ensure unique
-            while (groups.contains(name)) {
-                name = puvodni + "_" + i;
-                i++;
-            }
-            ContactsService myService = new ContactsService("Organizer Desktop beta");
-            myService.setUserCredentials(username, password);
-            // create group
-            URL postUrl = new URL("http://www.google.com/m8/feeds/contacts/" + username + "/full");
-            ContactGroupEntry skupina = createContactGroup(myService, name, username);
 
-            String groupID = skupina.getId();
-            // get all contacts
-       int adresarID = DatabaseManager.getAdresarIDbyUserID(idU);
-            List<Polozka> polozky = DatabaseManager.getAllItems(adresarID);
-            // upload all contacts
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < passwordChar.length; i++) {
+            sb.append(passwordChar[i]);
+        }
+        String password = sb.toString();
 
-            for (int j = 0; j < polozky.size(); j++) {
-                createGoogleContact(myService, polozky.get(j), postUrl, skupina, groupID);
-            }
-            return name;
+        ArrayList<String> groups = getGmailGroups(username, passwordChar);
+        int i = 1;
+        String puvodni = name;
+        // ensure unique
+        while (groups.contains(name)) {
+            name = puvodni + "_" + i;
+            i++;
+        }
+        ContactsService myService = new ContactsService("Organizer Desktop beta");
+        myService.setUserCredentials(username, password);
+        // create group
+        URL postUrl = new URL("http://www.google.com/m8/feeds/contacts/" + username + "/full");
+        ContactGroupEntry skupina = createContactGroup(myService, name, username);
+
+        String groupID = skupina.getId();
+        // get all contacts
+        int adresarID = DatabaseManager.getAdresarIDbyUserID(idU);
+        List<Polozka> polozky = DatabaseManager.getAllItems(adresarID);
+        // upload all contacts
+
+        for (int j = 0; j < polozky.size(); j++) {
+            createGoogleContact(myService, polozky.get(j), postUrl, skupina, groupID);
+        }
+        return name;
 
     }
 
@@ -1146,105 +1155,110 @@ public class ItemsManager {
     }
 
     private static void createGoogleContact(ContactsService myService, Polozka p, URL feedURL, ContactGroupEntry groupEntry, String groupID) throws IOException, ServiceException {
-        
-            com.google.gdata.data.contacts.ContactEntry contact = new com.google.gdata.data.contacts.ContactEntry();
-            Name name = new Name();
-            final String NO_YOMI = null;
-            String fullName = p.getJmeno() + " " + p.getPrijmeni();
-            name.setFullName(new FullName(fullName, NO_YOMI));
-            contact.setName(name);
-            Iterator<Adresa> it = p.getAdresy().iterator();
-            while (it.hasNext()) {
-                Adresa a = it.next();
-                StructuredPostalAddress spa = new StructuredPostalAddress();
-                spa.setCity(new City(a.getMesto()));
-                spa.setCountry(null);
-                spa.setStreet(new Street(a.getUlice() + " " + a.getCp()));
-                spa.setPostcode(new PostCode(a.getPsc() + ""));
-                //  spa.setRel("http://schemas.google.com/g/2005#other");
-                spa.setLabel(StringChecker.removeAccents(a.getTyp()));
-                contact.addStructuredPostalAddress(spa);
-            }
-            Set<ObecnyKontakt> kontakty = p.getKontakty();
-            Iterator<ObecnyKontakt> itk = kontakty.iterator();
-            while (itk.hasNext()) {
-                ObecnyKontakt o = itk.next();
-                if (o.getTyp().equalsIgnoreCase("email")) {
-                    Email e = new Email();
-                    e.setLabel(StringChecker.removeAccents(o.getOznaceni()));
-                    //       e.setRel("http://schemas.google.com/g/2005#other");
-                    e.setAddress(o.getHodnota());
-                    e.setDisplayName(fullName);
-                    contact.addEmailAddress(e);
-                }
-                if (o.getTyp().equalsIgnoreCase("telefon")) {
-                    PhoneNumber ph = new PhoneNumber();
-                    //      ph.setRel("http://schemas.google.com/g/2005#other");
-                    ph.setLabel(StringChecker.removeAccents(o.getOznaceni()));
-                    ph.setPhoneNumber(o.getHodnota());
-                    contact.addPhoneNumber(ph);
-                }
-                if (o.getTyp().equalsIgnoreCase("IM")) {
-                    Im im = new Im();
-                    im.setAddress(o.getHodnota());
-                    //   im.setRel("http://schemas.google.com/g/2005#other");
-                    im.setLabel(StringChecker.removeAccents(o.getOznaceni()));
-                    im.setProtocol(o.getTyp2());
-                    contact.addImAddress(im);
-                }
-                if (o.getTyp().equalsIgnoreCase("other")) {
-                    ExtendedProperty ep = new ExtendedProperty();
-                    ep.setName(o.getOznaceni());
 
-                    ep.setValue(o.getHodnota());
-                    contact.addExtendedProperty(ep);
-                }
-                if (o.getTyp().equalsIgnoreCase("url")) {
-                    Website web = new Website();
-                    web.setLabel(StringChecker.removeAccents(o.getOznaceni()));
-                    //    web.setRel(Website.Rel.OTHER);
-                    web.setHref(o.getHodnota());
-                    contact.addWebsite(web);
-                }
+        com.google.gdata.data.contacts.ContactEntry contact = new com.google.gdata.data.contacts.ContactEntry();
+        Name name = new Name();
+        final String NO_YOMI = null;
+        String fullName = p.getJmeno() + " " + p.getPrijmeni();
+        name.setFullName(new FullName(fullName, NO_YOMI));
+        contact.setName(name);
+        Iterator<Adresa> it = p.getAdresy().iterator();
+        while (it.hasNext()) {
+            Adresa a = it.next();
+            StructuredPostalAddress spa = new StructuredPostalAddress();
+            spa.setCity(new City(a.getMesto()));
+            spa.setCountry(null);
+            spa.setStreet(new Street(a.getUlice() + " " + a.getCp()));
+            spa.setPostcode(new PostCode(a.getPsc() + ""));
+            //  spa.setRel("http://schemas.google.com/g/2005#other");
+            spa.setLabel(StringChecker.removeAccents(a.getTyp()));
+            contact.addStructuredPostalAddress(spa);
+        }
+        Set<ObecnyKontakt> kontakty = p.getKontakty();
+        Iterator<ObecnyKontakt> itk = kontakty.iterator();
+        while (itk.hasNext()) {
+            ObecnyKontakt o = itk.next();
+            if (o.getTyp().equalsIgnoreCase("email")) {
+                Email e = new Email();
+                e.setLabel(StringChecker.removeAccents(o.getOznaceni()));
+                //       e.setRel("http://schemas.google.com/g/2005#other");
+                e.setAddress(o.getHodnota());
+                e.setDisplayName(fullName);
+                contact.addEmailAddress(e);
             }
+            if (o.getTyp().equalsIgnoreCase("telefon")) {
+                PhoneNumber ph = new PhoneNumber();
+                //      ph.setRel("http://schemas.google.com/g/2005#other");
+                ph.setLabel(StringChecker.removeAccents(o.getOznaceni()));
+                ph.setPhoneNumber(o.getHodnota());
+                contact.addPhoneNumber(ph);
+            }
+            if (o.getTyp().equalsIgnoreCase("IM")) {
+                Im im = new Im();
+                im.setAddress(o.getHodnota());
+                //   im.setRel("http://schemas.google.com/g/2005#other");
+                im.setLabel(StringChecker.removeAccents(o.getOznaceni()));
+                im.setProtocol(o.getTyp2());
+                contact.addImAddress(im);
+            }
+            if (o.getTyp().equalsIgnoreCase("other")) {
+                ExtendedProperty ep = new ExtendedProperty();
+                ep.setName(o.getOznaceni());
 
-            GroupMembershipInfo groupInfo = new GroupMembershipInfo();
-            groupInfo.setDeleted(false);
-            groupInfo.setHref(groupID);
-            contact.addGroupMembershipInfo(groupInfo);
-            myService.insert(feedURL, contact);
+                ep.setValue(o.getHodnota());
+                contact.addExtendedProperty(ep);
+            }
+            if (o.getTyp().equalsIgnoreCase("url")) {
+                Website web = new Website();
+                web.setLabel(StringChecker.removeAccents(o.getOznaceni()));
+                //    web.setRel(Website.Rel.OTHER);
+                web.setHref(o.getHodnota());
+                contact.addWebsite(web);
+            }
+        }
+
+        GroupMembershipInfo groupInfo = new GroupMembershipInfo();
+        groupInfo.setDeleted(false);
+        groupInfo.setHref(groupID);
+        contact.addGroupMembershipInfo(groupInfo);
+        myService.insert(feedURL, contact);
     }
 
     public static String exportGmail(int idU, String username, char[] passwordChar, String name, Set<String> labelsToExport, boolean labels) throws MalformedURLException, AuthenticationException, ServiceException, IOException, Exception {
-        
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < passwordChar.length; i++) {
-                sb.append(passwordChar[i]);
-            }
-            String password = sb.toString();
-            ArrayList<String> groups = getGmailGroups(username, passwordChar);
-            int i = 1;
-            String puvodni = name;
-            while (groups.contains(name)) {
-                name = puvodni + "_" + i;
-                i++;
-            }
-            ContactsService myService = new ContactsService("Organizer Desktop beta");
-            myService.setUserCredentials(username, password);
-            URL postUrl = new URL("http://www.google.com/m8/feeds/contacts/" + username + "/full");
-            ContactGroupEntry skupina = createContactGroup(myService, name, username);
 
-            String groupID = skupina.getId();
-            int adresarID = DatabaseManager.getAdresarIDbyUserID(idU);
-            List<Polozka> polozky;
-            if (labels) {
-                polozky = DatabaseManager.getItemsByLabel(idU, labelsToExport);
-            } else {
-                polozky = DatabaseManager.getItemsByLetter(idU, labelsToExport);
-            }
-            for (int j = 0; j < polozky.size(); j++) {
-                createGoogleContact(myService, polozky.get(j), postUrl, skupina, groupID);
-            }
-            return name;
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < passwordChar.length; i++) {
+            sb.append(passwordChar[i]);
+        }
+        String password = sb.toString();
+        ArrayList<String> groups = getGmailGroups(username, passwordChar);
+        int i = 1;
+        String puvodni = name;
+        while (groups.contains(name)) {
+            name = puvodni + "_" + i;
+            i++;
+        }
+        ContactsService myService = new ContactsService("Organizer Desktop beta");
+        myService.setUserCredentials(username, password);
+        URL postUrl = new URL("http://www.google.com/m8/feeds/contacts/" + username + "/full");
+        ContactGroupEntry skupina = createContactGroup(myService, name, username);
+
+        String groupID = skupina.getId();
+        int adresarID = DatabaseManager.getAdresarIDbyUserID(idU);
+        List<Polozka> polozky;
+        if (labels) {
+            polozky = DatabaseManager.getItemsByLabel(idU, labelsToExport);
+        } else {
+            polozky = DatabaseManager.getItemsByLetter(idU, labelsToExport);
+        }
+        for (int j = 0; j < polozky.size(); j++) {
+            createGoogleContact(myService, polozky.get(j), postUrl, skupina, groupID);
+        }
+        return name;
+    }
+
+    public static int importCSV(String absolutePath, String label, int userID) throws Exception {
+        CSVParser parser = new CSVParser();
+        return parser.importCsv(label, userID, absolutePath);
     }
 }

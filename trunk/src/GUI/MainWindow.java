@@ -62,9 +62,9 @@ public class MainWindow extends javax.swing.JFrame {
         setFilterMenu();
     }
 
-/**
- * Generates list of all labels to customize displayed contacts
- */
+    /**
+     * Generates list of all labels to customize displayed contacts
+     */
     public void setFilterMenu() {
         JCheckBox box = new JCheckBox("Contacts without labels");
         box.setSelected(true);
@@ -159,7 +159,74 @@ public class MainWindow extends javax.swing.JFrame {
                 b.setMinimumSize(new java.awt.Dimension(160, 62));
                 b.setPreferredSize(new java.awt.Dimension(160, 62));
                 b.setName("" + (tmp.getId()));
+                b.setToolTipText(tmp.getStitek());
+                b.addActionListener(new java.awt.event.ActionListener() {
 
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        showItem(evt);
+                    }
+                });
+
+                createPopUpMenu(p, b, tmp.getId(), tmp.getSearchLetter());
+                p.add(b);
+            }
+            if (i <= pocetRadku) {
+                int stop = (pocetRadku * 2) - i;
+                for (int j = 0; j < stop; j++) {
+                    JButton b = new JButton();
+                    b.setText("");
+                    b.setMaximumSize(new java.awt.Dimension(160, 62));
+                    b.setMinimumSize(new java.awt.Dimension(160, 62));
+                    b.setPreferredSize(new java.awt.Dimension(160, 62));
+                    b.setEnabled(false);
+                    b.setVisible(false);
+                    p.add(b);
+                }
+            }
+        } catch (Exception ex) {
+            ErrorDialog ed = new ErrorDialog((this), true, "Error gettin contacts", ex.getMessage());
+            ed.setVisible(true);
+        }
+        p.revalidate();
+    }
+
+    public void createBussinessCardFromSearch(JPanel p, String search) {
+        this.hiddenLabels = new HashSet<String>();
+        setFilterMenu();
+        p.removeAll();
+        p.revalidate();
+        p.repaint();
+        List<Polozka> polozky;
+        try {
+            if (jTextField1.getText().startsWith("label:")) {
+                polozky = (List<Polozka>) ItemsManager.getItemsByStringSearchLabel(userID, search.substring(search.indexOf(":")+1));
+            } else {
+                polozky = (List<Polozka>) ItemsManager.getItemsByStringSearch(userID, search);
+            }
+            int i = polozky.size();
+
+            int pocetRadku = 2;
+            if (i % 2 == 0) {
+                pocetRadku = i / 2;
+            } else {
+                pocetRadku = (i + 1) / 2;
+            }
+
+            if (pocetRadku < 8) {
+                pocetRadku = 8;
+            }
+            p.setLayout(new java.awt.GridLayout(pocetRadku, 2, 4, 5));
+
+            Polozka tmp;
+            for (int j = 0; j < i; j++) {
+                JButton b = new JButton();
+                tmp = polozky.get(j);
+                b.setText("<html>" + tmp.getPrijmeni() + ", " + tmp.getJmeno() + "<br/>");
+                b.setMaximumSize(new java.awt.Dimension(160, 62));
+                b.setMinimumSize(new java.awt.Dimension(160, 62));
+                b.setPreferredSize(new java.awt.Dimension(160, 62));
+                b.setName("" + (tmp.getId()));
+                b.setToolTipText(tmp.getStitek());
                 b.addActionListener(new java.awt.event.ActionListener() {
 
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,18 +267,6 @@ public class MainWindow extends javax.swing.JFrame {
         final int id = Integer.valueOf(source.getName()).intValue();
         ItemDialog dialog = new ItemDialog(new javax.swing.JFrame(), true, id, userID, mw);
         dialog.setVisible(true);
-    }
-
-    private void setButtonLabels() {
-        String[] pole = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "1",};
-        System.out.print(pole.length);
-        for (int i = 0; i < 27; i++) {
-            tlacitka[i] = new JButton();
-            tlacitka[i].setText(pole[i]);
-            tlacitka[i].setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-            jPanel1.add(tlacitka[i]);
-        }
-
     }
 
     /** This method is called from within the constructor to
@@ -258,6 +313,9 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton27 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton29 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
         pravyPanel = new javax.swing.JPanel();
         stredniPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -693,7 +751,7 @@ public class MainWindow extends javax.swing.JFrame {
         dolniPanel.setPreferredSize(new java.awt.Dimension(800, 22));
         dolniPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 2, 11));
         jLabel1.setText("Alpha version");
         dolniPanel.add(jLabel1, java.awt.BorderLayout.CENTER);
 
@@ -712,6 +770,16 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        jButton29.setText("Search");
+        jButton29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton29ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 2, 9)); // NOI18N
+        jLabel4.setText("<html>Tip: If you write \"label:se\", then all contacts with labels like secret <br/> or sea will be displayed</html>");
+
         javax.swing.GroupLayout horniPanelLayout = new javax.swing.GroupLayout(horniPanel);
         horniPanel.setLayout(horniPanelLayout);
         horniPanelLayout.setHorizontalGroup(
@@ -725,16 +793,30 @@ public class MainWindow extends javax.swing.JFrame {
                     .addGroup(horniPanelLayout.createSequentialGroup()
                         .addGap(79, 79, 79)
                         .addComponent(jLabel3)))
-                .addContainerGap(330, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(horniPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(horniPanelLayout.createSequentialGroup()
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton29))
+                    .addGroup(horniPanelLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         horniPanelLayout.setVerticalGroup(
             horniPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(horniPanelLayout.createSequentialGroup()
                 .addGroup(horniPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addGroup(horniPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(horniPanelLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(jButton27)
+                        .addGroup(horniPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton27)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton29))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -769,7 +851,7 @@ public class MainWindow extends javax.swing.JFrame {
         hlavniPanel.setLayout(hlavniPanelLayout);
         hlavniPanelLayout.setHorizontalGroup(
             hlavniPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 612, Short.MAX_VALUE)
+            .addGap(0, 673, Short.MAX_VALUE)
         );
         hlavniPanelLayout.setVerticalGroup(
             hlavniPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -830,8 +912,12 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu2.add(jMenuItem6);
 
         jMenuItem9.setBackground(new java.awt.Color(153, 153, 153));
-        jMenuItem9.setForeground(new java.awt.Color(153, 153, 153));
         jMenuItem9.setText("Import CSV");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importCSVAction(evt);
+            }
+        });
         jMenu2.add(jMenuItem9);
 
         jMenuItem10.setText("Import Gmail");
@@ -928,6 +1014,20 @@ public class MainWindow extends javax.swing.JFrame {
         GoogleExporDialog gl = new GoogleExporDialog((new javax.swing.JFrame()), false, this.userID, this);
         gl.setVisible(true);
     }//GEN-LAST:event_openExportGoogleDialog
+
+    private void importCSVAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importCSVAction
+        // TODO add your handling code here:
+        ImportCSVDialog ids = new ImportCSVDialog((new javax.swing.JFrame()), true, this.userID, this.pismeno, this);
+        ids.setVisible(true);
+
+    }//GEN-LAST:event_importCSVAction
+
+    private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
+        // TODO add your handling code here:
+        if (jTextField1.getText().length() > 0) {
+            createBussinessCardFromSearch(getHlavniPanel(), jTextField1.getText());
+        }
+    }//GEN-LAST:event_jButton29ActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -956,6 +1056,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton26;
     private javax.swing.JButton jButton27;
     private javax.swing.JButton jButton28;
+    private javax.swing.JButton jButton29;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -966,6 +1067,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -985,6 +1087,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JScrollPane levyPanel;
     private javax.swing.JPanel pravyPanel;
     private javax.swing.JPanel stredniPanel;

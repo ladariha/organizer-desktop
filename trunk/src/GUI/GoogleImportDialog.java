@@ -216,8 +216,10 @@ public class GoogleImportDialog extends javax.swing.JDialog {
         String stitek = "";
 
         try {
-            ArrayList<String> groups = ItemsManager.getGmailGroups(jTextField1.getText(), jPasswordField1.getPassword());
-            ArrayList<String> groupsID = ItemsManager.getGmailGroupsID(jTextField1.getText(), jPasswordField1.getPassword());
+            char [] pass = jPasswordField1.getPassword();
+            String username = jTextField1.getText();
+            ArrayList<String> groups = ItemsManager.getGmailGroups(username,pass);
+            ArrayList<String> groupsID = ItemsManager.getGmailGroupsID(username, pass);
 
             PickGoogleGroup pick = new PickGoogleGroup(new javax.swing.JFrame(), true, groups, groupsID, this);
             pick.setVisible(true);
@@ -226,28 +228,28 @@ public class GoogleImportDialog extends javax.swing.JDialog {
                 if (group.equals("All contacts")) {
 
                     if (jRadioButton1.isSelected()) {
-                        imported = ItemsManager.importGmail(jTextField1.getText(), jPasswordField1.getPassword(), this.idU, "gmail");
+                        imported = ItemsManager.importGmail(username,pass, this.idU, "gmail");
                         stitek = "gmail";
                     }
                     if (jRadioButton2.isSelected()) {
-                        imported = ItemsManager.importGmail(jTextField1.getText(), jPasswordField1.getPassword(), this.idU, jTextField2.getText());
+                        imported = ItemsManager.importGmail(username, pass, this.idU, jTextField2.getText());
                         stitek = jTextField2.getText();
                     }
                     if (jRadioButton3.isSelected()) {
-                        imported = ItemsManager.importGmail(jTextField1.getText(), jPasswordField1.getPassword(), this.idU, "organizer");
+                        imported = ItemsManager.importGmail(username, pass, this.idU, "organizer");
                         stitek = "";
                     }
                 } else {
                     if (jRadioButton1.isSelected()) {
-                        imported = ItemsManager.importGmail(jTextField1.getText(), jPasswordField1.getPassword(), this.idU, "gmail", group);
+                        imported = ItemsManager.importGmail(username, pass, this.idU, "gmail", group);
                         stitek = "gmail";
                     }
                     if (jRadioButton2.isSelected()) {
-                        imported = ItemsManager.importGmail(jTextField1.getText(), jPasswordField1.getPassword(), this.idU, jTextField2.getText(), group);
+                        imported = ItemsManager.importGmail(username, pass, this.idU, jTextField2.getText(), group);
                         stitek = jTextField2.getText();
                     }
                     if (jRadioButton3.isSelected()) {
-                        imported = ItemsManager.importGmail(jTextField1.getText(), jPasswordField1.getPassword(), this.idU, "organizer", group);
+                        imported = ItemsManager.importGmail(username, pass, this.idU, "organizer", group);
                         stitek = "";
                     }
                 }
@@ -261,6 +263,7 @@ public class GoogleImportDialog extends javax.swing.JDialog {
             }
             this.setVisible(false);
         } catch (Exception se) {
+            se.printStackTrace();
             jLabel4.setText("Invalid mail address or password");
             System.err.println("INVALiD LOGIN");
         }
