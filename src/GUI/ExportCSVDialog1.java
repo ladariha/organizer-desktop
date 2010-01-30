@@ -20,19 +20,16 @@ import javax.swing.JCheckBox;
  *
  * @author Lada Riha
  */
-public class ExportXMLDialog1 extends javax.swing.JDialog {
+public class ExportCSVDialog1 extends javax.swing.JDialog {
 
     /** Creates new form DeleteDialog
      * @param parent
      * @param modal
      * @param idU
      */
-  
-
-    ExportXMLDialog1(java.awt.Frame jFrame, boolean modal, int userID) {
-        super(jFrame, modal);
-        this.idU = userID;
-
+    public ExportCSVDialog1(java.awt.Frame parent, boolean modal, int idU) {
+        super(parent, modal);
+        this.idU = idU;
         initComponents();
         generateLabels();
     }
@@ -92,7 +89,7 @@ public class ExportXMLDialog1 extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel1.setText("Export contacts to XML, step 1/2");
+        jLabel1.setText("Export contacts to CSV, step 1/2");
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -569,26 +566,26 @@ public class ExportXMLDialog1 extends javax.swing.JDialog {
      * @param evt
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ExportXMLDialog2 exp = new ExportXMLDialog2(new javax.swing.JFrame(), rootPaneCheckingEnabled, idU, jmeno, prijmeni);
+        ExportCSVDialog2 exp = new ExportCSVDialog2(new javax.swing.JFrame(), rootPaneCheckingEnabled, idU, jmeno, prijmeni);
         exp.export = 1;
         exp.setVisible(true);
         this.setVisible(false);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-      /**
+    /**
      * Opens new dialog for file selection
      * @param evt
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ExportXMLDialog2 exp = new ExportXMLDialog2(new javax.swing.JFrame(), rootPaneCheckingEnabled, idU, jmeno, prijmeni);
+        ExportCSVDialog2 exp = new ExportCSVDialog2(new javax.swing.JFrame(), rootPaneCheckingEnabled, idU, jmeno, prijmeni);
         exp.export = 2;
         exp.lettersToExport = lettersToExport;
         exp.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-        /**
+    /**
      * Adds or removes selected letter from list of letters to be exported
      * @param evt
      */
@@ -602,12 +599,12 @@ public class ExportXMLDialog1 extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_letterSelectionAction
 
-          /**
+    /**
      * Opens new dialog for file selection
      * @param evt
      */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        ExportXMLDialog2 exp = new ExportXMLDialog2(new javax.swing.JFrame(), rootPaneCheckingEnabled, idU, jmeno, prijmeni);
+        ExportCSVDialog2 exp = new ExportCSVDialog2(new javax.swing.JFrame(), rootPaneCheckingEnabled, idU, jmeno, prijmeni);
         exp.export = 3;
         exp.labelsToExport = labelsToExport;
         exp.setVisible(true);
@@ -616,8 +613,7 @@ public class ExportXMLDialog1 extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
-
-        /**
+    /**
      * Generates all labels used in user's contacts a for each of them creates checkbox
      */
     private void generateLabels() {
@@ -649,6 +645,7 @@ public class ExportXMLDialog1 extends javax.swing.JDialog {
         }
 
     }
+
     /**
      * Adds or removes selected label from list of labels to be exported
      * @param evt

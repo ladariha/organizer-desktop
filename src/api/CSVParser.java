@@ -268,11 +268,11 @@ public class CSVParser {
             }
 
 
-            if (record[record.length - 1].length() > 0) {
-                fieldsToDel.add(record.length - 1);
+            if (record[record.length - 2].length() > 0) {
+                fieldsToDel.add(record.length - 2);
                 ObecnyKontakt o = new ObecnyKontakt();
                 o.setIdPolozky(idContact);
-                o.setHodnota(record[record.length - 1]);
+                o.setHodnota(record[record.length - 2]);
                 o.setTyp("url");
                 ContactManager.addUrl(o);
             }
@@ -299,6 +299,9 @@ public class CSVParser {
 ex.printStackTrace();        }
         return 0;
     }
+
+ 
+
 
     private static void print(ArrayList<String> records) {
 

@@ -199,7 +199,7 @@ public class MainWindow extends javax.swing.JFrame {
         List<Polozka> polozky;
         try {
             if (jTextField1.getText().startsWith("label:")) {
-                polozky = (List<Polozka>) ItemsManager.getItemsByStringSearchLabel(userID, search.substring(search.indexOf(":")+1));
+                polozky = (List<Polozka>) ItemsManager.getItemsByStringSearchLabel(userID, search.substring(search.indexOf(":") + 1));
             } else {
                 polozky = (List<Polozka>) ItemsManager.getItemsByStringSearch(userID, search);
             }
@@ -777,7 +777,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 2, 9)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 2, 9));
         jLabel4.setText("<html>Tip: If you write \"label:se\", then all contacts with labels like secret <br/> or sea will be displayed</html>");
 
         javax.swing.GroupLayout horniPanelLayout = new javax.swing.GroupLayout(horniPanel);
@@ -892,8 +892,12 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuItem3.setText("Export to TXT");
         jMenu1.add(jMenuItem3);
 
-        jMenuItem4.setForeground(new java.awt.Color(153, 153, 153));
         jMenuItem4.setText("Export to CSV");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openCSVExportDialogAction(evt);
+            }
+        });
         jMenu1.add(jMenuItem4);
 
         jMenuItem5.setText("Export to Gmail");
@@ -987,7 +991,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_importGmailAction
 
     private void exportXMLAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportXMLAction
-        ExportXMLDialog1 dialog = new ExportXMLDialog1(new javax.swing.JFrame(), true, userID, name, lastname);
+        ExportXMLDialog1 dialog = new ExportXMLDialog1(new javax.swing.JFrame(), true, userID);
         dialog.setVisible(true);
     }//GEN-LAST:event_exportXMLAction
 
@@ -1028,6 +1032,12 @@ public class MainWindow extends javax.swing.JFrame {
             createBussinessCardFromSearch(getHlavniPanel(), jTextField1.getText());
         }
     }//GEN-LAST:event_jButton29ActionPerformed
+
+    private void openCSVExportDialogAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openCSVExportDialogAction
+        // TODO add your handling code here:
+        ExportCSVDialog1 exp = new ExportCSVDialog1(new javax.swing.JFrame(), true, userID);
+        exp.setVisible(true);
+    }//GEN-LAST:event_openCSVExportDialogAction
     /**
      * @param args the command line arguments
      */

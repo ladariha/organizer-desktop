@@ -28,7 +28,6 @@ public class ExportHTMLDialog extends javax.swing.JDialog {
         this.prijmeniU = t2;
         initComponents();
         jFileChooser1.addChoosableFileFilter(new FileNameExtensionFilter("HTML Document (*.html)", "html"));
-
     }
 
     /** This method is called from within the constructor to
