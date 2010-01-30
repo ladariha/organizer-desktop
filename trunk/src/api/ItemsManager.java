@@ -56,13 +56,12 @@ public class ItemsManager {
         DatabaseManager.deleteItemsByLabel(labelsToDelete, idU);
     }
 
-
-    public static List getItemsByStringSearch(int userID,String  search)throws Exception{
-  return DatabaseManager.getItemsByStringSearch(userID, search);
+    public static List getItemsByStringSearch(int userID, String search) throws Exception {
+        return DatabaseManager.getItemsByStringSearch(userID, search);
     }
 
-        public static List getItemsByStringSearchLabel(int userID,String  search)throws Exception{
-  return DatabaseManager.getItemsByStringSearchLabel(userID, search);
+    public static List getItemsByStringSearchLabel(int userID, String search) throws Exception {
+        return DatabaseManager.getItemsByStringSearchLabel(userID, search);
     }
 
     public static List getItemsByID(int id, String letter, Set<String> hiddenLabels) throws Exception {
@@ -151,6 +150,9 @@ public class ItemsManager {
             exportXML(userID, cesta, jmenoU, prijmeniU, polozky);
         } else if (format.equalsIgnoreCase("html")) {
             exportHTML(userID, cesta, jmenoU, prijmeniU);
+        } else if (format.equalsIgnoreCase("csv")) {
+            List<Polozka> polozky = DatabaseManager.getItemsByID(userID);
+            exportCSV(userID, cesta, jmenoU, prijmeniU, polozky);
         }
     }
 
@@ -517,7 +519,7 @@ public class ItemsManager {
 
             File file = new File(cesta + System.getProperty("file.separator") + "organizer.xml");
             Writer output = new BufferedWriter(new FileWriter(file, false));
-            boolean neww = file.createNewFile();
+            //       boolean neww = file.createNewFile();
             output.write(s);
             output.close();
         }
@@ -537,248 +539,253 @@ public class ItemsManager {
         int idAdresare = DatabaseManager.getAdresarIDbyUserID(idUser);
         for (int i = 0; i < resultFeed.getEntries().size(); i++) {
 
-            com.google.gdata.data.contacts.ContactEntry entry = resultFeed.getEntries().get(i);
-            Name name = entry.getName();
-            String jmeno = entry.getName().getFullName().getValue().trim();
 
-            if (jmeno.length() > 0) {
-                Polozka polozka = new Polozka();
-                polozka.setIdAdresare(idAdresare);
-                polozka.setStitek(label);
+            try {
+                com.google.gdata.data.contacts.ContactEntry entry = resultFeed.getEntries().get(i);
+                Name name = entry.getName();
+                String jmeno = entry.getName().getFullName().getValue().trim();
 
-                try {
-                    if (jmeno.indexOf(" ") != -1) {
-                        String t1 = jmeno.substring(0, jmeno.indexOf(" "));
-                        if (t1 == null || t1.length() == 0) {
-                            t1 = " ";
-                        }
-                        polozka.setJmeno(t1);
-                        String t2 = jmeno.substring(jmeno.indexOf(" ") + 1);
-                        if (t2 == null || t2.length() == 0) {
-                            t2 = " ";
-                        }
-                        polozka.setPrijmeni(t2);
-                        t2 = StringChecker.removeAccents(t2).trim();
-                        t1 = StringChecker.removeAccents(t1).trim();
-                        try {
-                            polozka.setSearchLetter(t2.charAt(0) + "");
-                        } catch (Exception e) {
+                if (jmeno.length() > 0) {
+                    Polozka polozka = new Polozka();
+                    polozka.setIdAdresare(idAdresare);
+                    polozka.setStitek(label);
+
+                    try {
+                        if (jmeno.indexOf(" ") != -1) {
+                            String t1 = jmeno.substring(0, jmeno.indexOf(" "));
+                            if (t1 == null || t1.length() == 0) {
+                                t1 = " ";
+                            }
+                            polozka.setJmeno(t1);
+                            String t2 = jmeno.substring(jmeno.indexOf(" ") + 1);
+                            if (t2 == null || t2.length() == 0) {
+                                t2 = " ";
+                            }
+                            polozka.setPrijmeni(t2);
+                            t2 = StringChecker.removeAccents(t2).trim();
+                            t1 = StringChecker.removeAccents(t1).trim();
                             try {
-                                polozka.setSearchLetter(t1.charAt(0) + "");
-                            } catch (Exception ee) {
+                                polozka.setSearchLetter(t2.charAt(0) + "");
+                            } catch (Exception e) {
+                                try {
+                                    polozka.setSearchLetter(t1.charAt(0) + "");
+                                } catch (Exception ee) {
+                                    polozka.setSearchLetter("A");
+                                }
+                            }
+                        } else {
+                            polozka.setPrijmeni(jmeno);
+                            polozka.setJmeno(" ");
+                            try {
+                                polozka.setSearchLetter(StringChecker.removeAccents(jmeno).trim().charAt(0) + "");
+                            } catch (Exception exa) {
                                 polozka.setSearchLetter("A");
                             }
                         }
-                    } else {
+                    } catch (Exception g) {
                         polozka.setPrijmeni(jmeno);
                         polozka.setJmeno(" ");
+                        jmeno = StringChecker.removeAccents(jmeno);
                         try {
-                            polozka.setSearchLetter(StringChecker.removeAccents(jmeno).trim().charAt(0) + "");
+                            polozka.setSearchLetter(jmeno.trim().charAt(0) + "");
                         } catch (Exception exa) {
-                            polozka.setSearchLetter("A");
+                            polozka.setSearchLetter("#");
                         }
+                        g.printStackTrace();
                     }
-                } catch (Exception g) {
-                    polozka.setPrijmeni(jmeno);
-                    polozka.setJmeno(" ");
-                    jmeno = StringChecker.removeAccents(jmeno);
-                    try {
-                        polozka.setSearchLetter(jmeno.trim().charAt(0) + "");
-                    } catch (Exception exa) {
-                        polozka.setSearchLetter("#");
-                    }
-                    g.printStackTrace();
-                }
 
-                int idPolozky = saveItem(polozka, idAdresare);
-                if (idPolozky != -1) {
-                    try {
-                        List<StructuredPostalAddress> adressy = entry.getStructuredPostalAddresses();
-                        if (adressy != null) {
+                    int idPolozky = saveItem(polozka, idAdresare);
+                    if (idPolozky != -1) {
+                        try {
+                            List<StructuredPostalAddress> adressy = entry.getStructuredPostalAddresses();
+                            if (adressy != null) {
 
-                            for (int j = 0; j < adressy.size(); j++) {
-                                try {
-                                    StructuredPostalAddress adresa = adressy.get(j);
-                                    Adresa adr = new Adresa();
-                                    adr.setIdPolozky(idPolozky);
+                                for (int j = 0; j < adressy.size(); j++) {
                                     try {
-                                        adr.setTyp(adresa.getRel().substring(adresa.getRel().indexOf('#') + 1));
-                                    } catch (Exception ex) {
+                                        StructuredPostalAddress adresa = adressy.get(j);
+                                        Adresa adr = new Adresa();
+                                        adr.setIdPolozky(idPolozky);
                                         try {
-                                            adr.setTyp(adresa.getLabel());
-                                        } catch (Exception e) {
-                                            adr.setTyp("Neurčeno");
+                                            adr.setTyp(adresa.getRel().substring(adresa.getRel().indexOf('#') + 1));
+                                        } catch (Exception ex) {
+                                            try {
+                                                adr.setTyp(adresa.getLabel());
+                                            } catch (Exception e) {
+                                                adr.setTyp("Neurčeno");
+                                            }
                                         }
-                                    }
 
-                                    try {
-                                        String text = adresa.getFormattedAddress().getValue();
-                                        BufferedReader bf = new BufferedReader(new StringReader((text)));
-                                        String radek;
-                                        int krok = 1;
-                                        while ((radek = bf.readLine()) != null) {
+                                        try {
+                                            String text = adresa.getFormattedAddress().getValue();
+                                            BufferedReader bf = new BufferedReader(new StringReader((text)));
+                                            String radek;
+                                            int krok = 1;
+                                            while ((radek = bf.readLine()) != null) {
 
-                                            if (radek.length() > 0) {
-                                                if (krok == 1) {
-                                                    int lastindex = radek.lastIndexOf(' ');
-                                                    String ulice = radek.substring(0, lastindex);
-                                                    String cp = radek.substring(lastindex);
-                                                    adr.setUlice(ulice);
-                                                    adr.setCp(cp);
+                                                if (radek.length() > 0) {
+                                                    if (krok == 1) {
+                                                        int lastindex = radek.lastIndexOf(' ');
+                                                        String ulice = radek.substring(0, lastindex);
+                                                        String cp = radek.substring(lastindex);
+                                                        adr.setUlice(ulice);
+                                                        adr.setCp(cp);
 
-                                                } else if (krok == 2) {
-                                                    adr.setMesto(radek);
-                                                } else if (krok == 3) {
-                                                    try {
-                                                        radek = radek.replaceAll(" ", "");
-                                                        adr.setPsc(Integer.valueOf(radek).intValue());
-                                                    } catch (Exception e) {
-                                                        adr.setPsc(0);
+                                                    } else if (krok == 2) {
+                                                        adr.setMesto(radek);
+                                                    } else if (krok == 3) {
+                                                        try {
+                                                            radek = radek.replaceAll(" ", "");
+                                                            adr.setPsc(Integer.valueOf(radek).intValue());
+                                                        } catch (Exception e) {
+                                                            adr.setPsc(0);
+                                                        }
                                                     }
                                                 }
+                                                krok++;
                                             }
-                                            krok++;
-                                        }
-                                        ContactManager.addAddress(adr);
+                                            ContactManager.addAddress(adr);
 
-                                    } catch (Exception ex) {
-                                        adr.setTyp("Neurčen");
-                                    }
-                                } catch (Exception ad) {
-                                    ad.printStackTrace();
-                                }
-                            }
-                        }
-
-                        List<Email> maily = entry.getEmailAddresses();
-                        ObecnyKontakt ob = new ObecnyKontakt();
-                        if (maily != null) {
-                            for (int k = 0; k < maily.size(); k++) {
-                                try {
-                                    Email mail = maily.get(k);
-                                    if (mail.getAddress().length() > 0) {
-                                        ob.setIdPolozky(idPolozky);
-                                        ob.setTyp("email");
-                                        ob.setHodnota(mail.getAddress());
-                                        try {
-                                            ob.setOznaceni(mail.getRel().substring(mail.getRel().indexOf('#') + 1));
                                         } catch (Exception ex) {
-
-                                            try {
-                                                ob.setOznaceni(mail.getLabel());
-                                            } catch (Exception e) {
-                                                ob.setOznaceni("Neurčen");
-                                            }
+                                            adr.setTyp("Neurčen");
                                         }
-
-                                        try {
-                                            ob.setTyp2((mail.getAddress().substring(mail.getAddress().indexOf('@') + 1).toUpperCase()));
-                                        } catch (Exception ex) {
-                                            ob.setTyp2("");
-                                        }
-                                        ContactManager.addEmail(ob);
-                                    }
-                                } catch (Exception ad) {
-                                    ad.printStackTrace();
-                                }
-                            }
-                        }
-                        ob = new ObecnyKontakt();
-                        List<PhoneNumber> cisla = entry.getPhoneNumbers();
-                        if (cisla != null) {
-                            for (int l = 0; l < cisla.size(); l++) {
-                                PhoneNumber cislo = cisla.get(l);
-                                if (cislo.getPhoneNumber().length() > 0) {
-                                    ob.setIdPolozky(idPolozky);
-                                    ob.setTyp("telefon");
-                                    ob.setHodnota(cislo.getPhoneNumber());
-                                    try {
-                                        ob.setOznaceni(cislo.getRel().substring(cislo.getRel().indexOf('#') + 1));
                                     } catch (Exception ad) {
-                                        try {
-                                            ob.setOznaceni(cislo.getLabel());
-                                        } catch (Exception e) {
-                                            ob.setOznaceni("Neurčeno");
-                                        }
+                                        ad.printStackTrace();
                                     }
-                                    ContactManager.addPhone(ob);
                                 }
                             }
-                        }
 
-                        ob = new ObecnyKontakt();
-                        List<Im> ims = entry.getImAddresses();
-                        if (ims != null) {
-                            for (int m = 0; m < ims.size(); m++) {
-                                try {
-                                    Im im = ims.get(m);
-                                    if (im.getAddress().length() > 0) {
+                            List<Email> maily = entry.getEmailAddresses();
+                            ObecnyKontakt ob = new ObecnyKontakt();
+                            if (maily != null) {
+                                for (int k = 0; k < maily.size(); k++) {
+                                    try {
+                                        Email mail = maily.get(k);
+                                        if (mail.getAddress().length() > 0) {
+                                            ob.setIdPolozky(idPolozky);
+                                            ob.setTyp("email");
+                                            ob.setHodnota(mail.getAddress());
+                                            try {
+                                                ob.setOznaceni(mail.getRel().substring(mail.getRel().indexOf('#') + 1));
+                                            } catch (Exception ex) {
+
+                                                try {
+                                                    ob.setOznaceni(mail.getLabel());
+                                                } catch (Exception e) {
+                                                    ob.setOznaceni("Neurčen");
+                                                }
+                                            }
+
+                                            try {
+                                                ob.setTyp2((mail.getAddress().substring(mail.getAddress().indexOf('@') + 1).toUpperCase()));
+                                            } catch (Exception ex) {
+                                                ob.setTyp2("");
+                                            }
+                                            ContactManager.addEmail(ob);
+                                        }
+                                    } catch (Exception ad) {
+                                        ad.printStackTrace();
+                                    }
+                                }
+                            }
+                            ob = new ObecnyKontakt();
+                            List<PhoneNumber> cisla = entry.getPhoneNumbers();
+                            if (cisla != null) {
+                                for (int l = 0; l < cisla.size(); l++) {
+                                    PhoneNumber cislo = cisla.get(l);
+                                    if (cislo.getPhoneNumber().length() > 0) {
                                         ob.setIdPolozky(idPolozky);
-                                        ob.setTyp("im");
-                                        ob.setHodnota(im.getAddress());
-
+                                        ob.setTyp("telefon");
+                                        ob.setHodnota(cislo.getPhoneNumber());
                                         try {
-                                            ob.setOznaceni(im.getRel().substring(im.getRel().indexOf('#') + 1));
+                                            ob.setOznaceni(cislo.getRel().substring(cislo.getRel().indexOf('#') + 1));
                                         } catch (Exception ad) {
                                             try {
-                                                ob.setOznaceni(im.getLabel());
+                                                ob.setOznaceni(cislo.getLabel());
                                             } catch (Exception e) {
-                                                ob.setOznaceni("Neurčen");
+                                                ob.setOznaceni("Neurčeno");
                                             }
                                         }
-
-                                        try {
-                                            ob.setTyp2(im.getProtocol().toString().substring(im.getProtocol().toString().indexOf('#') + 1));
-                                        } catch (Exception ad) {
-
-                                            try {
-                                                ob.setTyp2(im.getProtocol());
-                                            } catch (Exception e) {
-                                                ob.setTyp2("Neurčen");
-                                            }
-                                        }
-                                        ContactManager.addIm(ob);
+                                        ContactManager.addPhone(ob);
                                     }
-
-                                } catch (Exception ad) {
-                                    ad.printStackTrace();
                                 }
                             }
-                        }
 
-                        ob = new ObecnyKontakt();
-                        List<Website> urls = entry.getWebsites();
-                        if (urls != null) {
-                            for (int n = 0; n < urls.size(); n++) {
-                                try {
-                                    Website web = urls.get(n);
-                                    if (web.getHref().length() > 0) {
-                                        ob.setIdPolozky(idPolozky);
-                                        ob.setTyp("url");
-                                        ob.setHodnota(web.getHref());
+                            ob = new ObecnyKontakt();
+                            List<Im> ims = entry.getImAddresses();
+                            if (ims != null) {
+                                for (int m = 0; m < ims.size(); m++) {
+                                    try {
+                                        Im im = ims.get(m);
+                                        if (im.getAddress().length() > 0) {
+                                            ob.setIdPolozky(idPolozky);
+                                            ob.setTyp("im");
+                                            ob.setHodnota(im.getAddress());
 
-                                        try {
-                                            ob.setOznaceni(web.getRel().toString().substring(web.getRel().toString().indexOf('#') + 1));
-                                        } catch (Exception ad) {
                                             try {
-                                                ob.setOznaceni(web.getLabel());
-                                            } catch (Exception e) {
-                                                ob.setOznaceni("Neurčen");
+                                                ob.setOznaceni(im.getRel().substring(im.getRel().indexOf('#') + 1));
+                                            } catch (Exception ad) {
+                                                try {
+                                                    ob.setOznaceni(im.getLabel());
+                                                } catch (Exception e) {
+                                                    ob.setOznaceni("Neurčen");
+                                                }
                                             }
+
+                                            try {
+                                                ob.setTyp2(im.getProtocol().toString().substring(im.getProtocol().toString().indexOf('#') + 1));
+                                            } catch (Exception ad) {
+
+                                                try {
+                                                    ob.setTyp2(im.getProtocol());
+                                                } catch (Exception e) {
+                                                    ob.setTyp2("Neurčen");
+                                                }
+                                            }
+                                            ContactManager.addIm(ob);
                                         }
-                                        ContactManager.addUrl(ob);
+
+                                    } catch (Exception ad) {
+                                        ad.printStackTrace();
                                     }
-                                } catch (Exception ad) {
-                                    ad.printStackTrace();
                                 }
                             }
+
+                            ob = new ObecnyKontakt();
+                            List<Website> urls = entry.getWebsites();
+                            if (urls != null) {
+                                for (int n = 0; n < urls.size(); n++) {
+                                    try {
+                                        Website web = urls.get(n);
+                                        if (web.getHref().length() > 0) {
+                                            ob.setIdPolozky(idPolozky);
+                                            ob.setTyp("url");
+                                            ob.setHodnota(web.getHref());
+
+                                            try {
+                                                ob.setOznaceni(web.getRel().toString().substring(web.getRel().toString().indexOf('#') + 1));
+                                            } catch (Exception ad) {
+                                                try {
+                                                    ob.setOznaceni(web.getLabel());
+                                                } catch (Exception e) {
+                                                    ob.setOznaceni("Neurčen");
+                                                }
+                                            }
+                                            ContactManager.addUrl(ob);
+                                        }
+                                    } catch (Exception ad) {
+                                        ad.printStackTrace();
+                                    }
+                                }
+                            }
+                        } catch (Exception ee) {
+                            ee.printStackTrace();
                         }
-                    } catch (Exception ee) {
-                        ee.printStackTrace();
                     }
+                    importovano++;
                 }
-                importovano++;
+            } catch (Exception ew) {
             }
+
         }
         DatabaseManager.updateLabelList(idUser);
         return importovano;
@@ -1092,9 +1099,10 @@ public class ItemsManager {
     }
 
     public static void export(int idU, String absolutePath, String jmenoU, String prijmeniU, String format, Set<String> lettersToExport, int labelOrLetter) throws ParserConfigurationException, TransformerConfigurationException, TransformerException, IOException, Exception {
-
+        List<Polozka> polozky;
+        System.out.println("START " + absolutePath);
         if (format.equalsIgnoreCase("xml")) {
-            List<Polozka> polozky;
+
             if (labelOrLetter == 2) {
                 polozky = DatabaseManager.getItemsByLetter(idU, lettersToExport);
             } else {
@@ -1105,6 +1113,16 @@ public class ItemsManager {
             }
         } else if (format.equalsIgnoreCase("html")) {
             exportHTML(idU, absolutePath, jmenoU, prijmeniU);
+        } else if (format.equalsIgnoreCase("csv")) {
+
+            if (labelOrLetter == 2) {
+                polozky = DatabaseManager.getItemsByLetter(idU, lettersToExport);
+            } else {
+                polozky = DatabaseManager.getItemsByLabel(idU, lettersToExport);
+            }
+            if (polozky != null) {
+                exportCSV(idU, absolutePath, jmenoU, prijmeniU, polozky);
+            }
         }
     }
 
@@ -1260,5 +1278,148 @@ public class ItemsManager {
     public static int importCSV(String absolutePath, String label, int userID) throws Exception {
         CSVParser parser = new CSVParser();
         return parser.importCsv(label, userID, absolutePath);
+    }
+
+    private static void exportCSV(int idU, String absolutePath, String jmenoU, String prijmeniU, List<Polozka> polozky) throws IOException {
+        // create file
+        File file = new File(absolutePath + System.getProperty("file.separator") + "organizer.csv");
+        StringBuffer sb = new StringBuffer();
+        ArrayList<String> lines = new ArrayList<String>();
+        String header = "\"Titul\",\"Jméno\",\"2. křestní jméno\",\"Příjmení\",\"Za příjmením\",\"Společnost\",\"Oddělení\",\"Funkce\",\"Ulice (zam.)\",\"Ulice 2 (zam.)\",\"Ulice 3 (zam.)\",\"Město (zam.)\",\"Země (zam.)\",\"PSČ (zam.)\",\"Země (zaměstnání)\",\"Ulice (dom.)\",\"Ulice 2 (dom.)\",\"Ulice 3 (dom.)\",\"Město (dom.)\",\"Země (dom.)\",\"PSČ (dom.)\",\"Země (domů)\",\"Jiná ulice\",\"Jiná ulice 2\",\"Jiná ulice 3\",\"Jiné město\",\"Jiný okres\",\"Jiné PSČ\",\"Jiná země\",\"Telefon asistenta\",\"Fax (zam.)\",\"Telefon (zam.)\",\"Telefon 2 (zam.)\",\"Zpětné volání\",\"Telefon do auta\",\"Telefon společnosti\",\"Fax domů\",\"Telefon domů\",\"Telefon 2 domů\",\"ISDN\",\"Mobilní telefon\",\"Jiný fax\",\"Jiný telefon\",\"Operátor\",\"Primární telefon\",\"Radiotelefon\",\"Pro neslyšící\",\"Dálnopis\",\"Adresářový server\",\"Děti\",\"Doporučil\",\"E-mailová adresa\",\"Typ e-mailu\",\"Zobrazované jméno e-mailu\",\"E-mailová adresa 2\",\"Typ e-mailu 2\",\"Zobrazované jméno e-mailu 2\",\"E-mailová adresa 3\",\"Typ e-mailu 3\",\"Zobrazované jméno e-mailu 3\",\"Faktury\",\"IČO\",\"Informace o volném čase v síti Internet\",\"Iniciály\",\"Jazyk\",\"Jiná poštovní přihrádka\",\"Jméno asistenta\",\"Jméno správce\",\"Kategorie\",\"Klíč. slova\",\"Manžel/manželka\",\"Narozeniny\",\"Pohlaví\",\"Poštovní přihrádka domů\",\"Poštovní přihrádka zaměstnání\",\"Poznámky\",\"Priorita\",\"Profese\",\"Rodné číslo\",\"Soukromé\",\"Účet\",\"Umístění\",\"Umístění pracoviště\",\"Utajení\",\"Uživatel 1\",\"Uživatel 2\",\"Uživatel 3\",\"Uživatel 4\",\"Výročí\",\"Vzdálenost\",\"Webová stránka\",\"Záliby\"";
+        // add header
+        sb.append(header);
+        String newLine = System.getProperty("line.separator");
+
+        // for each P in polozky add line
+
+        for (int i = 0; i < polozky.size(); i++) {
+            sb.append(newLine);
+            sb.append(makeCSVLine(polozky.get(i), newLine));
+        }
+
+        Writer output = new BufferedWriter(new FileWriter(file, false));
+        //   boolean neww = file.createNewFile();
+        output.write(sb.toString());
+        output.close();
+
+    }
+
+    private static String makeCSVLine(Polozka p, String newLine) {
+        String[] line = new String[94];
+        StringBuffer note = new StringBuffer();
+
+        for (int i = 0; i < line.length; i++) {
+            line[i] = "";
+        }
+
+        line[1] = p.getJmeno();
+        line[3] = p.getPrijmeni();
+
+        // process addresses
+        Set<Adresa> adresy = p.getAdresy();
+        Iterator<Adresa> it = adresy.iterator();
+        int step = 0;
+        while (it.hasNext()) {
+            Adresa a = it.next();
+            if (step < 3) {
+                line[8 + step * 7] = a.getUlice() + " " + a.getCp();
+                line[11 + step * 7] = a.getMesto();
+                line[13 + step * 7] = a.getPsc() + "";
+                step++;
+            } else {
+                note.append("Address(" + a.getTyp() + "): " + a.getUlice() + " " + a.getCp() + " " + a.getMesto() + " " + a.getPsc() + " ; ");
+                //note.append(newLine);
+            }
+        }
+
+        ArrayList<ObecnyKontakt> phones = new ArrayList<ObecnyKontakt>();
+        ArrayList<ObecnyKontakt> emails = new ArrayList<ObecnyKontakt>();
+        ArrayList<ObecnyKontakt> ims = new ArrayList<ObecnyKontakt>();
+        ArrayList<ObecnyKontakt> urls = new ArrayList<ObecnyKontakt>();
+        ArrayList<ObecnyKontakt> others = new ArrayList<ObecnyKontakt>();
+        ObecnyKontakt ob;
+        Set kontakty = p.getKontakty();
+
+        Iterator<ObecnyKontakt> ito = kontakty.iterator();
+        String typ;
+        while (ito.hasNext()) {
+            ob = (ObecnyKontakt) ito.next();
+            typ = ob.getTyp();
+
+            if (typ.equalsIgnoreCase("email")) {
+                emails.add(ob);
+            } else if (typ.equalsIgnoreCase("telefon")) {
+                phones.add(ob);
+            } else if (typ.equalsIgnoreCase("im")) {
+                ims.add(ob);
+            } else if (typ.equalsIgnoreCase("url")) {
+                urls.add(ob);
+            } else {
+                others.add(ob);
+            }
+        }
+
+
+        // process phones
+
+        step = 29;
+        // csv top is 19
+
+        for (int i = 0; i < phones.size(); i++) {
+            if (i < 19) {
+                line[step] = phones.get(i).getHodnota();
+
+            } else {
+                note.append("Phone (" + phones.get(i).getOznaceni() + "): " + phones.get(i).getHodnota() + " ; ");
+            }
+            step++;
+        }
+        step = 51;
+        for (int i = 0; i < emails.size(); i++) {
+            if (i < 3) {
+                step = 51 + i * 3;
+                line[step] = emails.get(i).getHodnota();
+                line[step + 2] = p.getJmeno() + " " + p.getPrijmeni();
+            } else {
+                note.append("Email (" + emails.get(i).getOznaceni() + "): " + emails.get(i).getHodnota() + " ; ");
+            }
+            step++;
+        }
+
+// url
+
+        for (int i = 0; i < urls.size(); i++) {
+            if (i < 1) {
+                line[92] = urls.get(i).getHodnota();
+            } else {
+                note.append("URL (" + urls.get(i).getOznaceni() + "): " + urls.get(i).getHodnota() + " ; ");
+            }
+
+
+        }
+
+// im
+        for (int i = 0; i < ims.size(); i++) {
+            note.append("IM (" + ims.get(i).getTyp2() + " - " + ims.get(i).getOznaceni() + "): " + ims.get(i).getHodnota() + "; ");
+        }
+
+// other
+        for (int i = 0; i < others.size(); i++) {
+            note.append("Other (" + others.get(i).getOznaceni() + "): " + others.get(i).getHodnota() + "; ");
+        }
+
+        line[77] = note.toString();
+
+        //"","","","","","","","",,,,,,,,,,,,,,,,,,,,,,,,"",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"","",,,,,"",,"0.0.00","Neznámé",,,"
+//","Střední",,,"False","","",,"Normální",,,,,"0.0.00",,""
+
+
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < line.length; i++) {
+            sb.append("\"" + line[i] + "\",");
+        }
+        String t = sb.toString();
+        t = t.substring(0, t.length() - 1);
+        return t;
     }
 }
