@@ -1,3 +1,3 @@
 = Screenshots =
 
-<wiki:gadget url="http://www.ladariha.cz/file/screen.xml" width="710" height="100%" />
+<wiki:gadget url="http://www.ladariha.cz/file/screen.xml" width="710" height="800" />
