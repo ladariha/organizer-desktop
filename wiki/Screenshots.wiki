@@ -1,3 +1,3 @@
 = Screenshots =
 
-<wiki:gadget url="https://docs.google.com/leaf?id=0B6Sd5ov8j7IUNTU2ZGQwNmItZDc5Yi00ZTIyLWFmODQtZjFkNTg3YzA1NzI3&hl=en" width="310" height="566" />
+<wiki:gadget url="http://www.ladariha.cz/file/screen.xml" width="710" height="100%" />
