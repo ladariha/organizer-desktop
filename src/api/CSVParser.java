@@ -60,9 +60,9 @@ public class CSVParser {
         int headerLength = 0;
         boolean cont = false;
         while (b.ready()) {
-        
+
             line = b.readLine();
-         
+
             if (krok == 0) {
                 headerLength = line.split(",").length;
                 records.add(line);
@@ -85,7 +85,7 @@ public class CSVParser {
         String[] header = (records.get(0).replaceAll("\"", "")).split(",");
         int addressBookID = DatabaseManager.getAdresarIDbyUserID(userID);
         for (int i = 1; i < records.size(); i++) {
-  
+
             importovano = importovano + processData(records.get(i), header, label, addressBookID);
         }
 
@@ -103,7 +103,7 @@ public class CSVParser {
      */
     private int processData(String records, String[] header, String label, int abID) {
         try {
-            System.out.println("RR "+records);
+            System.out.println("RR " + records);
             fieldsToDel = new ArrayList<Integer>();
             records = records.replaceAll("\"", "");
             Polozka contact = new Polozka();
@@ -173,7 +173,9 @@ public class CSVParser {
                 Matcher myMatcher = myPattern.matcher(street);
                 int cp = 0;
                 if (myMatcher.find()) {
-                    cp = Integer.parseInt(myMatcher.group());
+                    String tmp = myMatcher.group();
+                    cp = Integer.parseInt(tmp);
+                    street = street.replaceAll(tmp, "");
                 }
                 a.setCp(cp + "");
                 a.setUlice(street);
@@ -198,7 +200,9 @@ public class CSVParser {
                 Matcher myMatcher = myPattern.matcher(street);
                 int cp = 0;
                 if (myMatcher.find()) {
-                    cp = Integer.parseInt(myMatcher.group());
+                    String tmp = myMatcher.group();
+                    cp = Integer.parseInt(tmp);
+                    street = street.replaceAll(tmp, "");
                 }
                 a.setCp(cp + "");
                 a.setUlice(street);
@@ -284,10 +288,10 @@ public class CSVParser {
                     o.setHodnota(record[i]);
                     o.setTyp("other");
                     o.setIdPolozky(idContact);
-                    try{
-                    o.setOznaceni(header[i]);
-                    }catch(Exception a){
-                    o.setOznaceni("unknown");
+                    try {
+                        o.setOznaceni(header[i]);
+                    } catch (Exception a) {
+                        o.setOznaceni("unknown");
                     }
                     ContactManager.addOther(o);
                 }
@@ -296,12 +300,10 @@ public class CSVParser {
             }
             return 1;
         } catch (Exception ex) {
-ex.printStackTrace();        }
+            ex.printStackTrace();
+        }
         return 0;
     }
-
- 
-
 
     private static void print(ArrayList<String> records) {
 

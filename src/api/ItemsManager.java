@@ -7,6 +7,8 @@ package api;
 import classes.*;
 import classes.Adresa;
 import hibernate.*;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,8 +24,12 @@ import com.google.gdata.util.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -114,6 +120,11 @@ public class ItemsManager {
     public static int countItems(int userID) throws Exception {
         int archivId = DatabaseManager.getAdresarIDbyUserID(userID);
         return DatabaseManager.getItemsCount(archivId);
+    }
+
+    public static  int [] countIAll(int userID) throws Exception {
+        int archivId = DatabaseManager.getAdresarIDbyUserID(userID);
+        return DatabaseManager.getFullCount(archivId);
     }
 
     public static String saveItem(int idUser, String jmeno, String prijmeni, String stitek) throws Exception {
@@ -300,7 +311,7 @@ public class ItemsManager {
                         }
                     }
                 } catch (Exception a) {
-                    a.printStackTrace();
+        //            a.printStackTrace();
                 }
 
             }
@@ -502,7 +513,7 @@ public class ItemsManager {
                         }
                     }
                 } catch (Exception v) {
-                    v.printStackTrace();
+            //        v.printStackTrace();
                 }
             }
 
@@ -591,7 +602,7 @@ public class ItemsManager {
                         } catch (Exception exa) {
                             polozka.setSearchLetter("#");
                         }
-                        g.printStackTrace();
+            //            g.printStackTrace();
                     }
 
                     int idPolozky = saveItem(polozka, idAdresare);
@@ -649,7 +660,8 @@ public class ItemsManager {
                                             adr.setTyp("Neurčen");
                                         }
                                     } catch (Exception ad) {
-                                        ad.printStackTrace();
+                                   //
+                                        //ad.printStackTrace();
                                     }
                                 }
                             }
@@ -683,7 +695,7 @@ public class ItemsManager {
                                             ContactManager.addEmail(ob);
                                         }
                                     } catch (Exception ad) {
-                                        ad.printStackTrace();
+                          //              ad.printStackTrace();
                                     }
                                 }
                             }
@@ -745,7 +757,7 @@ public class ItemsManager {
                                         }
 
                                     } catch (Exception ad) {
-                                        ad.printStackTrace();
+                          //              ad.printStackTrace();
                                     }
                                 }
                             }
@@ -773,12 +785,12 @@ public class ItemsManager {
                                             ContactManager.addUrl(ob);
                                         }
                                     } catch (Exception ad) {
-                                        ad.printStackTrace();
+                                     //   ad.printStackTrace();
                                     }
                                 }
                             }
                         } catch (Exception ee) {
-                            ee.printStackTrace();
+                //            ee.printStackTrace();
                         }
                     }
                     importovano++;
@@ -825,7 +837,6 @@ public class ItemsManager {
 
         for (int i = 0; i < resultFeed.getEntries().size(); i++) {
             ContactGroupEntry groupEntry = resultFeed.getEntries().get(i);
-            System.out.println("IDGroup " + groupEntry.getId());
             groups.add(groupEntry.getId());
         }
         return groups;
@@ -902,7 +913,7 @@ public class ItemsManager {
                         } catch (Exception exa) {
                             polozka.setSearchLetter("#");
                         }
-                        g.printStackTrace();
+               //         g.printStackTrace();
                     }
 
                     int idPolozky = saveItem(polozka, idAdresare);
@@ -1090,7 +1101,7 @@ public class ItemsManager {
                     importovano++;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
 
@@ -1100,7 +1111,7 @@ public class ItemsManager {
 
     public static void export(int idU, String absolutePath, String jmenoU, String prijmeniU, String format, Set<String> lettersToExport, int labelOrLetter) throws ParserConfigurationException, TransformerConfigurationException, TransformerException, IOException, Exception {
         List<Polozka> polozky;
-        System.out.println("START " + absolutePath);
+        
         if (format.equalsIgnoreCase("xml")) {
 
             if (labelOrLetter == 2) {
@@ -1168,7 +1179,7 @@ public class ItemsManager {
         ContactGroupEntry group = new ContactGroupEntry();
         group.setTitle(new PlainTextConstruct(name));
         URL url = new URL("http://www.google.com/m8/feeds/groups/" + username + "/full");
-        System.out.println("URL JE " + url.toString());
+        
         return service.insert(url, group);
     }
 
@@ -1285,27 +1296,30 @@ public class ItemsManager {
         File file = new File(absolutePath + System.getProperty("file.separator") + "organizer.csv");
         StringBuffer sb = new StringBuffer();
         ArrayList<String> lines = new ArrayList<String>();
-        String header = "\"Titul\",\"Jméno\",\"2. křestní jméno\",\"Příjmení\",\"Za příjmením\",\"Společnost\",\"Oddělení\",\"Funkce\",\"Ulice (zam.)\",\"Ulice 2 (zam.)\",\"Ulice 3 (zam.)\",\"Město (zam.)\",\"Země (zam.)\",\"PSČ (zam.)\",\"Země (zaměstnání)\",\"Ulice (dom.)\",\"Ulice 2 (dom.)\",\"Ulice 3 (dom.)\",\"Město (dom.)\",\"Země (dom.)\",\"PSČ (dom.)\",\"Země (domů)\",\"Jiná ulice\",\"Jiná ulice 2\",\"Jiná ulice 3\",\"Jiné město\",\"Jiný okres\",\"Jiné PSČ\",\"Jiná země\",\"Telefon asistenta\",\"Fax (zam.)\",\"Telefon (zam.)\",\"Telefon 2 (zam.)\",\"Zpětné volání\",\"Telefon do auta\",\"Telefon společnosti\",\"Fax domů\",\"Telefon domů\",\"Telefon 2 domů\",\"ISDN\",\"Mobilní telefon\",\"Jiný fax\",\"Jiný telefon\",\"Operátor\",\"Primární telefon\",\"Radiotelefon\",\"Pro neslyšící\",\"Dálnopis\",\"Adresářový server\",\"Děti\",\"Doporučil\",\"E-mailová adresa\",\"Typ e-mailu\",\"Zobrazované jméno e-mailu\",\"E-mailová adresa 2\",\"Typ e-mailu 2\",\"Zobrazované jméno e-mailu 2\",\"E-mailová adresa 3\",\"Typ e-mailu 3\",\"Zobrazované jméno e-mailu 3\",\"Faktury\",\"IČO\",\"Informace o volném čase v síti Internet\",\"Iniciály\",\"Jazyk\",\"Jiná poštovní přihrádka\",\"Jméno asistenta\",\"Jméno správce\",\"Kategorie\",\"Klíč. slova\",\"Manžel/manželka\",\"Narozeniny\",\"Pohlaví\",\"Poštovní přihrádka domů\",\"Poštovní přihrádka zaměstnání\",\"Poznámky\",\"Priorita\",\"Profese\",\"Rodné číslo\",\"Soukromé\",\"Účet\",\"Umístění\",\"Umístění pracoviště\",\"Utajení\",\"Uživatel 1\",\"Uživatel 2\",\"Uživatel 3\",\"Uživatel 4\",\"Výročí\",\"Vzdálenost\",\"Webová stránka\",\"Záliby\"";
+        String header = getHeader();
         // add header
         sb.append(header);
         String newLine = System.getProperty("line.separator");
 
         // for each P in polozky add line
 
-        for (int i = 0; i < polozky.size(); i++) {
+        for (int i = 0; i < polozky.size(); i++) {//
             sb.append(newLine);
-            sb.append(makeCSVLine(polozky.get(i), newLine));
+            sb.append(StringChecker.removeAccents(makeCSVLine(polozky.get(i), newLine)));
         }
 
-        Writer output = new BufferedWriter(new FileWriter(file, false));
+        //Writer output = new BufferedWriter(new FileWriter(file, false));
+        FileOutputStream fos = new FileOutputStream(file);
+        OutputStreamWriter out = new OutputStreamWriter(fos, "cp1250");
+        out.write(sb.toString());
         //   boolean neww = file.createNewFile();
-        output.write(sb.toString());
-        output.close();
-
+        //BufferedWriter bw = new BufferedWriter(out);
+        out.close();
+        fos.close();
     }
 
     private static String makeCSVLine(Polozka p, String newLine) {
-        String[] line = new String[94];
+        String[] line = new String[92];
         StringBuffer note = new StringBuffer();
 
         for (int i = 0; i < line.length; i++) {
@@ -1360,8 +1374,6 @@ public class ItemsManager {
         }
 
 
-        // process phones
-
         step = 29;
         // csv top is 19
 
@@ -1390,7 +1402,7 @@ public class ItemsManager {
 
         for (int i = 0; i < urls.size(); i++) {
             if (i < 1) {
-                line[92] = urls.get(i).getHodnota();
+                line[90] = urls.get(i).getHodnota();
             } else {
                 note.append("URL (" + urls.get(i).getOznaceni() + "): " + urls.get(i).getHodnota() + " ; ");
             }
@@ -1410,16 +1422,41 @@ public class ItemsManager {
 
         line[77] = note.toString();
 
-        //"","","","","","","","",,,,,,,,,,,,,,,,,,,,,,,,"",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"","",,,,,"",,"0.0.00","Neznámé",,,"
-//","Střední",,,"False","","",,"Normální",,,,,"0.0.00",,""
-
-
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < line.length; i++) {
+        for (int i = 0; i < 8; i++) {
             sb.append("\"" + line[i] + "\",");
         }
+        for (int i = 8; i < 63; i++) {
+            if (line[i].length() > 0) {
+                sb.append("\"" + line[i] + "\",");
+            } else {
+                sb.append(",");
+            }
+        }
+        sb.append("\"\","); // 63 inicial
+        sb.append("\"\","); // 64 inicial
+        for (int i = 65; i < 69; i++) {
+            sb.append(",");
+        }
+        sb.append("\"\","); // 69
+        sb.append(","); //70
+        sb.append("\"0.0.00\",");
+        sb.append("\"Unknown\",");
+        sb.append("\"\","); // 73
+        sb.append("\"\","); // 74
+        sb.append(note.toString() + ",");//75
+        sb.append("Low,"); // priority
+        sb.append(",,\"False\",\"\",\"\",,\"Normal\",,,,,\"0.0.00\",,\"" + line[90] + "\"");
+
         String t = sb.toString();
-        t = t.substring(0, t.length() - 1);
         return t;
+    }
+
+    private static String getHeader() throws FileNotFoundException, UnsupportedEncodingException, IOException {
+        File file = new File("csvHeader.txt");
+        FileInputStream fis = new FileInputStream(file);
+        InputStreamReader in = new InputStreamReader(fis, "cp1250");
+        BufferedReader b = new BufferedReader(in);
+        return (b.readLine());
     }
 }
