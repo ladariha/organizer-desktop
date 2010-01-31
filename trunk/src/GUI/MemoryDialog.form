@@ -117,7 +117,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Po&#x10d;et telefon&#x16f;:"/>
+                <Property name="text" type="java.lang.String" value="Number of phones:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
@@ -127,7 +127,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Po&#x10d;et adres:"/>
+                <Property name="text" type="java.lang.String" value="Number of addresses:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
@@ -137,7 +137,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel7">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Po&#x10d;et email&#x16f;:"/>
+                <Property name="text" type="java.lang.String" value="Number of emails:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel8">
@@ -147,7 +147,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel9">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Po&#x10d;et IM:"/>
+                <Property name="text" type="java.lang.String" value="Number of IM:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel10">
@@ -157,7 +157,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel11">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Po&#x10d;et URL adres:"/>
+                <Property name="text" type="java.lang.String" value="Number of URL:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel12">
@@ -167,7 +167,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel13">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Po&#x10d;et ostatn&#xed;ch"/>
+                <Property name="text" type="java.lang.String" value="Number of other:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel14">

@@ -11,6 +11,7 @@
 package GUI;
 
 import api.ItemsManager;
+import hibernate.DatabaseManager;
 
 /**
  *
@@ -32,10 +33,17 @@ public class MemoryDialog extends javax.swing.JDialog {
     private void showStatistics(int userID) {
         try {
             jLabel15.setText(ItemsManager.countItems(userID) + "");
+                   int [] number = ItemsManager.countIAll(userID);
+                   jLabel4.setText(number[0]+"");
+                   jLabel6.setText(number[1]+"");
+                   jLabel8.setText(number[2]+"");
+                   jLabel10.setText(number[3]+"");
+                   jLabel12.setText(number[4]+"");
+                   jLabel14.setText(number[5]+"");
         } catch (Exception ex) {
-            jLabel15.setText("Uknown");
+            jLabel15.setText("Unknown");
         }
-        jLabel4.setText(ItemsManager.countItems("telefon") + "");
+
 
     }
 
@@ -71,7 +79,7 @@ public class MemoryDialog extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18));
         jLabel1.setText("Memory usage");
 
         jLabel2.setText("Number of contacts");
@@ -79,37 +87,37 @@ public class MemoryDialog extends javax.swing.JDialog {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new java.awt.GridLayout(6, 2));
 
-        jLabel3.setText("Počet telefonů:");
+        jLabel3.setText("Number of phones:");
         jPanel2.add(jLabel3);
 
         jLabel4.setText("0");
         jPanel2.add(jLabel4);
 
-        jLabel5.setText("Počet adres:");
+        jLabel5.setText("Number of addresses:");
         jPanel2.add(jLabel5);
 
         jLabel6.setText("0");
         jPanel2.add(jLabel6);
 
-        jLabel7.setText("Počet emailů:");
+        jLabel7.setText("Number of emails:");
         jPanel2.add(jLabel7);
 
         jLabel8.setText("0");
         jPanel2.add(jLabel8);
 
-        jLabel9.setText("Počet IM:");
+        jLabel9.setText("Number of IM:");
         jPanel2.add(jLabel9);
 
         jLabel10.setText("0");
         jPanel2.add(jLabel10);
 
-        jLabel11.setText("Počet URL adres:");
+        jLabel11.setText("Number of URL:");
         jPanel2.add(jLabel11);
 
         jLabel12.setText("0");
         jPanel2.add(jLabel12);
 
-        jLabel13.setText("Počet ostatních");
+        jLabel13.setText("Number of other:");
         jPanel2.add(jLabel13);
 
         jLabel14.setText("0");
