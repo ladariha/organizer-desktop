@@ -1,7 +1,7 @@
 #labels Featured
 # Organizer Desktop in time
 
-= Evolution of Organizer Desktop =
+= Changelog =
 
 === Jan 21, 2010 ===
 Project was founded.
@@ -17,3 +17,8 @@ Key functions:
 === Jan 31, 2010 ===
  * CSV export to Outlook 2007 Czech
  * Memory usage dialog, About dialog, small changes in UI 
+
+=== Feb 2, 2010 ===
+ * Import from XML
+ * Few bugs fixed
+ * *Official version 1.0*
