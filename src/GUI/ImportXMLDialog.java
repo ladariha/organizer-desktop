@@ -10,7 +10,8 @@
  */
 package GUI;
 
-import api.ItemsManager;
+import api.XMLParser;
+import hibernate.DatabaseManager;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -19,15 +20,15 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  * @author Lada Riha
  */
-public class ImportCSVDialog extends javax.swing.JDialog {
+public class ImportXMLDialog extends javax.swing.JDialog {
 
     /** Creates new form ImportCSVDialog */
-    public ImportCSVDialog(java.awt.Frame parent, boolean modal, int idUser, String letter, MainWindow mw) {
+    public ImportXMLDialog(java.awt.Frame parent, boolean modal, int idUser, String letter, MainWindow mw) {
         super(parent, modal);
         this.userID = idUser;
         this.main = mw;
         initComponents();
-        jFileChooser1.addChoosableFileFilter(new FileNameExtensionFilter("CSV Document (*.csv)", "csv"));
+        jFileChooser1.addChoosableFileFilter(new FileNameExtensionFilter("XML File (*.xml)", "xml"));
     }
 
     /** This method is called from within the constructor to
@@ -41,11 +42,6 @@ public class ImportCSVDialog extends javax.swing.JDialog {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
         jFileChooser1 = new javax.swing.JFileChooser();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -53,53 +49,6 @@ public class ImportCSVDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Imported contacts:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 255))); // NOI18N
-
-        jTextField2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jRadioButton1.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setSelected(true);
-        jRadioButton1.setText("Add label \"CSV\"");
-
-        jRadioButton2.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Add custom label:");
-
-        jRadioButton3.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("Do not add any label");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jRadioButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, Short.MAX_VALUE)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton3))
-                .addContainerGap(48, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jRadioButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jRadioButton3)
-                .addGap(35, 35, 35))
-        );
 
         jFileChooser1.setAcceptAllFileFilterUsed(false);
         jFileChooser1.setControlButtonsAreShown(false);
@@ -110,7 +59,7 @@ public class ImportCSVDialog extends javax.swing.JDialog {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel1.setText("Import from CSV file");
+        jLabel1.setText("Import from XML file");
 
         jButton1.setText("Import");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -126,10 +75,9 @@ public class ImportCSVDialog extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
                     .addComponent(jFileChooser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -137,9 +85,7 @@ public class ImportCSVDialog extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(jLabel1)
-                .addGap(11, 11, 11)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jFileChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
@@ -166,19 +112,12 @@ public class ImportCSVDialog extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            //this.setEnabled(false);
             // TODO add your handling code here:
-            String label = "";
-            if (jRadioButton1.isSelected()) {
-                label = "CSV";
-            }
-            if (jRadioButton2.isSelected()) {
-                label = jTextField2.getText();
-            }
-            int imported = ItemsManager.importCSV(jFileChooser1.getSelectedFile().getAbsolutePath(), label, userID);
+            int idA = DatabaseManager.getAdresarIDbyUserID(userID);
+            int imported = XMLParser.parse(userID, idA, jFileChooser1.getSelectedFile().getAbsolutePath());
             StringBuffer sb = new StringBuffer();
-            sb.append("Imported: " + imported + " contacts with label " + label);
-            InfoDialog inf = new InfoDialog(main, true, "CSV Import", sb.toString());
+            sb.append("Imported: " + imported);
+            InfoDialog inf = new InfoDialog(main, true, "XML Import", sb.toString());
             inf.setVisible(true);
             main.setFilterMenu();
             main.setNumberOfContacts();
@@ -200,11 +139,6 @@ public class ImportCSVDialog extends javax.swing.JDialog {
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
     private int userID;
     private MainWindow main;

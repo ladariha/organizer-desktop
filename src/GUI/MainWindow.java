@@ -915,6 +915,11 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu2.setText("Import");
 
         jMenuItem6.setText("Import XML");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importXMLDialogAction(evt);
+            }
+        });
         jMenu2.add(jMenuItem6);
 
         jMenuItem9.setBackground(new java.awt.Color(153, 153, 153));
@@ -1059,6 +1064,12 @@ public class MainWindow extends javax.swing.JFrame {
         AboutDialog ab= new AboutDialog(new javax.swing.JFrame(), true);
         ab.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_openAboutDialog
+
+    private void importXMLDialogAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importXMLDialogAction
+        // TODO add your handling code here:
+        ImportXMLDialog id = new ImportXMLDialog(new javax.swing.JFrame(), true, userID, name, main);
+        id.setVisible(true);
+    }//GEN-LAST:event_importXMLDialogAction
     /**
      * @param args the command line arguments
      */
