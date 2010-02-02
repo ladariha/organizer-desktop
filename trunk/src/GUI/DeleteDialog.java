@@ -680,9 +680,15 @@ public class DeleteDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         JCheckBox box = (JCheckBox) evt.getSource();
         if (box.isSelected()) {
-            labelsToDelete.add(box.getText());
+            if(box.getText().equalsIgnoreCase("Contacts without labels")){
+            labelsToDelete.add("organizer");
+            }else{
+            labelsToDelete.add(box.getText());}
         } else {
-            labelsToDelete.remove(box.getText());
+            if(box.getText().equalsIgnoreCase("Contacts without labels")){
+            labelsToDelete.remove("organizer");
+            }else{
+            labelsToDelete.remove(box.getText());}
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

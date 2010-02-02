@@ -1006,6 +1006,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void exportXMLAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportXMLAction
         ExportXMLDialog1 dialog = new ExportXMLDialog1(new javax.swing.JFrame(), true, userID);
+        dialog.jmeno = name;
+        dialog.prijmeni = lastname;
         dialog.setVisible(true);
     }//GEN-LAST:event_exportXMLAction
 
