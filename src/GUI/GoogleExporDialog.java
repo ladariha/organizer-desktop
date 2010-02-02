@@ -90,10 +90,16 @@ public class GoogleExporDialog extends javax.swing.JDialog {
     private void labelSelectionAction(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         JCheckBox box = (JCheckBox) evt.getSource();
-        if (box.isSelected()) {
-            labelsToExport.add(box.getText());
+       if (box.isSelected()) {
+            if(box.getText().equalsIgnoreCase("Contacts without labels")){
+            labelsToExport.add("organizer");
+            }else{
+            labelsToExport.add(box.getText());}
         } else {
-            labelsToExport.remove(box.getText());
+            if(box.getText().equalsIgnoreCase("Contacts without labels")){
+            labelsToExport.remove("organizer");
+            }else{
+            labelsToExport.remove(box.getText());}
         }
     }
 

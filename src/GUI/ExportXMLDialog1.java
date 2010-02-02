@@ -665,10 +665,16 @@ public class ExportXMLDialog1 extends javax.swing.JDialog {
     private void labelSelectionAction(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         JCheckBox box = (JCheckBox) evt.getSource();
-        if (box.isSelected()) {
-            labelsToExport.add(box.getText());
+       if (box.isSelected()) {
+            if(box.getText().equalsIgnoreCase("Contacts without labels")){
+            labelsToExport.add("organizer");
+            }else{
+            labelsToExport.add(box.getText());}
         } else {
-            labelsToExport.remove(box.getText());
+            if(box.getText().equalsIgnoreCase("Contacts without labels")){
+            labelsToExport.remove("organizer");
+            }else{
+            labelsToExport.remove(box.getText());}
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -717,6 +723,6 @@ public class ExportXMLDialog1 extends javax.swing.JDialog {
     private int idU;
     private Set<String> lettersToExport = new HashSet<String>();
     private Set<String> labelsToExport = new HashSet<String>();
-    private String jmeno;
-    private String prijmeni;
+    public  String jmeno;
+    public String prijmeni;
 }

@@ -32,6 +32,8 @@ public class ExportXMLDialog2 extends javax.swing.JDialog {
         this.idU = idUser;
         this.jmenoU = t1;
         this.prijmeniU = t2;
+        System.out.println(t1);
+        System.out.println(t2);
         initComponents();
         final FileNameExtensionFilter excelFilter = new FileNameExtensionFilter("XML Document (*.xml)", "xml");
         jFileChooser1.addChoosableFileFilter(excelFilter);
