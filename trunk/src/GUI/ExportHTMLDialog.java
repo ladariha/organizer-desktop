@@ -46,6 +46,7 @@ public class ExportHTMLDialog extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Export to HTML");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -114,6 +115,9 @@ public class ExportHTMLDialog extends javax.swing.JDialog {
         try {
             // TODO add your handling code here:
             ItemsManager.export(this.idU, jFileChooser1.getSelectedFile().getAbsolutePath(), jmenoU, prijmeniU, "html");
+                 InfoDialog id = new InfoDialog(new javax.swing.JFrame(), rootPaneCheckingEnabled, "Contacts has been exported", "  ");
+                        id.setVisible(true);
+                        this.setVisible(false);
         } catch (ParserConfigurationException ex) {
             ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "HTML file error", ex.getMessage());
             ed.setVisible(true);

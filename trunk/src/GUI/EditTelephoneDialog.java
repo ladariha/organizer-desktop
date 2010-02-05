@@ -66,6 +66,7 @@ public class EditTelephoneDialog extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Edit phone");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 

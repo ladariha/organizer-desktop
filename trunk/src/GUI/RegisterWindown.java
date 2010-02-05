@@ -69,6 +69,7 @@ public class RegisterWindown extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Register");
         setBackground(new java.awt.Color(0, 255, 102));
         setForeground(new java.awt.Color(255, 255, 255));
 
@@ -97,7 +98,7 @@ public class RegisterWindown extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14));
         jLabel5.setText("Registration");
 
         jLabel6.setFont(jLabel6.getFont().deriveFont((jLabel6.getFont().getStyle() | java.awt.Font.ITALIC)));

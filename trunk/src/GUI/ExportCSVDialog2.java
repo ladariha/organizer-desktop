@@ -53,6 +53,7 @@ public class ExportCSVDialog2 extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Export to CSV");
         setIconImage(null);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -129,6 +130,9 @@ public class ExportCSVDialog2 extends javax.swing.JDialog {
         if (export == 1) {
             try {
                 ItemsManager.export(this.idU, jFileChooser1.getSelectedFile().getAbsolutePath(), jmenoU, prijmeniU, "csv");
+                     InfoDialog id = new InfoDialog(new javax.swing.JFrame(), rootPaneCheckingEnabled, "Contacts has been exported", "  ");
+                        id.setVisible(true);
+                        this.setVisible(false);
             } catch (ParserConfigurationException ex) {
                 ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "CSV file error", ex.getMessage());
                 ed.setVisible(true);
@@ -150,6 +154,9 @@ public class ExportCSVDialog2 extends javax.swing.JDialog {
             try {
                 // letter
                 ItemsManager.export(this.idU, jFileChooser1.getSelectedFile().getAbsolutePath(), jmenoU, prijmeniU, "csv", lettersToExport, 2);
+                     InfoDialog id = new InfoDialog(new javax.swing.JFrame(), rootPaneCheckingEnabled, "Contacts has been exported", "  ");
+                        id.setVisible(true);
+                        this.setVisible(false);
             } catch (ParserConfigurationException ex) {
                 ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "CSV file error", ex.getMessage());
                 ed.setVisible(true);
@@ -172,6 +179,9 @@ public class ExportCSVDialog2 extends javax.swing.JDialog {
             try {
                 // letter
                 ItemsManager.export(this.idU, jFileChooser1.getSelectedFile().getAbsolutePath(), jmenoU, prijmeniU, "csv", labelsToExport, 3);
+                     InfoDialog id = new InfoDialog(new javax.swing.JFrame(), rootPaneCheckingEnabled, "Contacts has been exported", "  ");
+                        id.setVisible(true);
+                        this.setVisible(false);
             } catch (ParserConfigurationException ex) {
                 ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "CSV file error", ex.getMessage());
                 ed.setVisible(true);

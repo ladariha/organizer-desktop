@@ -47,6 +47,7 @@ public class ImportXMLDialog extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Import from XML");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -58,7 +59,7 @@ public class ImportXMLDialog extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12));
         jLabel1.setText("Import from XML file");
 
         jButton1.setText("Import");
