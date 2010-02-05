@@ -85,7 +85,7 @@ public class WelcomeDialog extends javax.swing.JDialog {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Organizer Dekstop");
+        setTitle("Organizer Desktop");
         setAlwaysOnTop(true);
         setForeground(new java.awt.Color(255, 255, 255));
 

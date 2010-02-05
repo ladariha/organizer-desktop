@@ -66,6 +66,7 @@ public class EditImDialog extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Edit IM");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 

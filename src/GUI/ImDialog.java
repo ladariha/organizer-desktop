@@ -53,6 +53,7 @@ public class ImDialog extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Add IM");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 

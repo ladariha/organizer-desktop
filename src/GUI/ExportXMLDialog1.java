@@ -89,6 +89,7 @@ public class ExportXMLDialog1 extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Export to XML");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 

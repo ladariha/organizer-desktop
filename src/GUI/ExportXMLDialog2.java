@@ -55,10 +55,11 @@ public class ExportXMLDialog2 extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Export to XML");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12));
         jLabel1.setText("Export contacts to XML, step 2/2");
 
         jFileChooser1.setAcceptAllFileFilterUsed(false);
@@ -129,6 +130,9 @@ public class ExportXMLDialog2 extends javax.swing.JDialog {
         if (export == 1) {
             try {
                 ItemsManager.export(this.idU, jFileChooser1.getSelectedFile().getAbsolutePath(), jmenoU, prijmeniU, "xml");
+                                InfoDialog id = new InfoDialog(new javax.swing.JFrame(), rootPaneCheckingEnabled, "Contacts has been exported", "  ");
+                        id.setVisible(true);
+                        this.setVisible(false);
             } catch (ParserConfigurationException ex) {
                 ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "XML file error", ex.getMessage());
                 ed.setVisible(true);
@@ -150,6 +154,9 @@ public class ExportXMLDialog2 extends javax.swing.JDialog {
             try {
                 // letter
                 ItemsManager.export(this.idU, jFileChooser1.getSelectedFile().getAbsolutePath(), jmenoU, prijmeniU, "xml", lettersToExport, 2);
+                     InfoDialog id = new InfoDialog(new javax.swing.JFrame(), rootPaneCheckingEnabled, "Contacts has been exported", "  ");
+                        id.setVisible(true);
+                        this.setVisible(false);
             } catch (ParserConfigurationException ex) {
                 ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "XML file error", ex.getMessage());
                 ed.setVisible(true);
@@ -172,6 +179,9 @@ public class ExportXMLDialog2 extends javax.swing.JDialog {
             try {
                 // letter
                 ItemsManager.export(this.idU, jFileChooser1.getSelectedFile().getAbsolutePath(), jmenoU, prijmeniU, "xml", labelsToExport, 3);
+                     InfoDialog id = new InfoDialog(new javax.swing.JFrame(), rootPaneCheckingEnabled, "Contacts has been exported", "  ");
+                        id.setVisible(true);
+                        this.setVisible(false);
             } catch (ParserConfigurationException ex) {
                 ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "XML file error", ex.getMessage());
                 ed.setVisible(true);

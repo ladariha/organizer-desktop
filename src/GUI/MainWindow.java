@@ -872,6 +872,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu3.setMnemonic('O');
         jMenu3.setText("Organizer");
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder_go.png"))); // NOI18N
         jMenu1.setText("Export");
 
         jMenuItem1.setText("Export to XML");
@@ -912,6 +913,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenu3.add(jMenu1);
 
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/folder.png"))); // NOI18N
         jMenu2.setText("Import");
 
         jMenuItem6.setText("Import XML");
@@ -942,6 +944,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu3.add(jMenu2);
         jMenu3.add(jSeparator1);
 
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/lightbulb.png"))); // NOI18N
         jMenuItem8.setText("Memory usage");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -953,11 +956,14 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuBar1.add(jMenu3);
 
         jMenu4.setBackground(new java.awt.Color(215, 223, 230));
+        jMenu4.setMnemonic('V');
         jMenu4.setText("View labels");
         jMenuBar1.add(jMenu4);
 
+        jMenu5.setMnemonic('T');
         jMenu5.setText("Tools");
 
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete.png"))); // NOI18N
         jMenuItem7.setText("Remove contacts");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -968,8 +974,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu5);
 
+        jMenu6.setMnemonic('I');
         jMenu6.setText("Info");
 
+        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/information_s.png"))); // NOI18N
         jMenuItem11.setText("About");
         jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
