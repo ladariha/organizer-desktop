@@ -491,7 +491,7 @@ public class DatabaseManager {
         return resultList;
     }
 
-        public static List getItemsByStringSearchLabel(int userID, String search) throws Exception {
+    public static List getItemsByStringSearchLabel(int userID, String search) throws Exception {
         Session session = NewHibernateUtil.getSessionFactory().openSession();
         int idA = DatabaseManager.getAdresarIDbyUserID(userID);
         session.beginTransaction();
@@ -506,51 +506,63 @@ public class DatabaseManager {
     }
 
     public static int[] getFullCount(int archivId) {
-            Session session = NewHibernateUtil.getSessionFactory().openSession();
+        Session session = NewHibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query q = session.createQuery("FROM Adresar WHERE id=" + archivId + "");
         List<Adresar> resultList = q.list();
         Adresar a = resultList.get(0);
-        int [] suma = new int[6];
-Iterator<Polozka> it = a.getPolozky().iterator();
-int pocetTelefonu = 0;
-int pocetEmail = 0;
-int pocetAdres = 0;
-int pocetUrl = 0;
-int pocetIm = 0;
-int pocetOther = 0;
+        int[] suma = new int[6];
+        Iterator<Polozka> it = a.getPolozky().iterator();
+        int pocetTelefonu = 0;
+        int pocetEmail = 0;
+        int pocetAdres = 0;
+        int pocetUrl = 0;
+        int pocetIm = 0;
+        int pocetOther = 0;
 
-while(it.hasNext()){
-Polozka p = it.next();
-Iterator<ObecnyKontakt> ito = p.getKontakty().iterator();
+        while (it.hasNext()) {
+            Polozka p = it.next();
+            Iterator<ObecnyKontakt> ito = p.getKontakty().iterator();
 
-while(ito.hasNext()){
-ObecnyKontakt o = ito.next();
-if(o.getTyp().equalsIgnoreCase("telefon")){
-pocetTelefonu++;
-}else if(o.getTyp().equalsIgnoreCase("email")){
-pocetEmail++;
-}else if(o.getTyp().equalsIgnoreCase("im")){
-pocetIm++;
-}else if(o.getTyp().equalsIgnoreCase("url")){
-pocetUrl++;
-}else{
-pocetOther++;
-}
-}
+            while (ito.hasNext()) {
+                ObecnyKontakt o = ito.next();
+                if (o.getTyp().equalsIgnoreCase("telefon")) {
+                    pocetTelefonu++;
+                } else if (o.getTyp().equalsIgnoreCase("email")) {
+                    pocetEmail++;
+                } else if (o.getTyp().equalsIgnoreCase("im")) {
+                    pocetIm++;
+                } else if (o.getTyp().equalsIgnoreCase("url")) {
+                    pocetUrl++;
+                } else {
+                    pocetOther++;
+                }
+            }
 
-pocetAdres = pocetAdres +p.getAdresy().size();
+            pocetAdres = pocetAdres + p.getAdresy().size();
 
-}
+        }
 
 
-suma[0] = pocetTelefonu;
-suma[1] = pocetAdres;
-suma[2] = pocetEmail;
-suma[3] = pocetIm;
-suma[4] = pocetUrl;
-suma[5] = pocetOther;
+        suma[0] = pocetTelefonu;
+        suma[1] = pocetAdres;
+        suma[2] = pocetEmail;
+        suma[3] = pocetIm;
+        suma[4] = pocetUrl;
+        suma[5] = pocetOther;
         return suma;
+    }
+
+    public static void addImage(int idP, String path) {
+
+        Session session = NewHibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query q = session.createQuery("FROM Polozka WHERE id=" + idP + "");
+        List<Polozka> polozky = q.list();
+        Polozka p = polozky.get(0);
+        p.setImagePath(path);
+        session.save(p);
+        session.getTransaction().commit();
     }
 
     private void executeHQLQuery(String hql) {

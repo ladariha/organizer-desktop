@@ -20,6 +20,7 @@ public class Polozka implements Comparable<Polozka>{
     private String prijmeni;
     private String searchLetter;
 private String stitek;
+private String imagePath;
 
     public Polozka() {
     }
@@ -96,6 +97,20 @@ private String stitek;
      */
     public void setStitek(String stitek) {
         this.stitek = stitek;
+    }
+
+    /**
+     * @return the imagePath
+     */
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    /**
+     * @param imagePath the imagePath to set
+     */
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public int compareTo(Polozka  o) {

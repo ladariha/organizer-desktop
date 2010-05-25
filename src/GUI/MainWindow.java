@@ -153,7 +153,12 @@ public class MainWindow extends javax.swing.JFrame {
             Polozka tmp;
             for (int j = 0; j < i; j++) {
                 JButton b = new JButton();
+
                 tmp = polozky.get(j);
+                b.setIcon(new javax.swing.ImageIcon(tmp.getImagePath()));
+                b.setVerticalTextPosition(SwingConstants.CENTER);
+                b.setHorizontalTextPosition(SwingConstants.RIGHT);
+                b.setIconTextGap(50);
                 b.setText("<html>" + tmp.getPrijmeni() + ", " + tmp.getJmeno() + "<br/>");
                 b.setMaximumSize(new java.awt.Dimension(160, 62));
                 b.setMinimumSize(new java.awt.Dimension(160, 62));
@@ -1069,7 +1074,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_openCSVExportDialogAction
 
     private void openAboutDialog(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openAboutDialog
-        AboutDialog ab= new AboutDialog(new javax.swing.JFrame(), true);
+        AboutDialog ab = new AboutDialog(new javax.swing.JFrame(), true);
         ab.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_openAboutDialog
 
@@ -1227,6 +1232,15 @@ public class MainWindow extends javax.swing.JFrame {
         menuItem = new JMenuItem("Remove contact");
         menuItem.addActionListener(actionD);
         popup.add(menuItem);
+        menuItem = new JMenuItem("Edit contact");
+        actionD = new EditContactItemPopListener(this, userID, polozka, letter);
+        menuItem.addActionListener(actionD);
+        popup.add(menuItem);
+        menuItem = new JMenuItem("Edit image");
+        actionD = new EditImageItemPopListener(this, userID, polozka, letter);
+        menuItem.addActionListener(actionD);
+        popup.add(menuItem);
+
         MouseListener popupListener = new NewPopupListener(popup);
         b.addMouseListener(popupListener);
         lpane.add(popup);
@@ -1269,6 +1283,64 @@ class DeleteItemPopListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         try {
             ItemsManager.deleteItem(idPol, idUser);
+            mw.createBussinessCard(mw.getHlavniPanel(), letter, true);
+            mw.setNumberOfContacts();
+        } catch (Exception ex) {
+            ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Error with contact", ex.getMessage());
+            ed.setVisible(true);
+        }
+    }
+}
+
+class EditContactItemPopListener implements ActionListener {
+
+    private MainWindow mw;
+    private int idUser;
+    private int idPol;
+    private String letter;
+
+    public EditContactItemPopListener(MainWindow mw, int idU, int idP, String letter) {
+        this.mw = mw;
+        this.idUser = idU;
+        this.idPol = idP;
+        this.letter = letter;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        try {
+            Polozka p = ItemsManager.getFullItemByID(idPol, idUser);
+
+            EditItemDialog dialog = new EditItemDialog(new javax.swing.JFrame(), true, p.getPrijmeni(), p.getJmeno(), idPol, idUser, mw);
+            dialog.setVisible(true);
+            mw.createBussinessCard(mw.getHlavniPanel(), letter, true);
+            mw.setNumberOfContacts();
+        } catch (Exception ex) {
+            ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Error with contact", ex.getMessage());
+            ed.setVisible(true);
+        }
+    }
+}
+
+class EditImageItemPopListener implements ActionListener {
+
+    private MainWindow mw;
+    private int idUser;
+    private int idPol;
+    private String letter;
+
+    public EditImageItemPopListener(MainWindow mw, int idU, int idP, String letter) {
+        this.mw = mw;
+        this.idUser = idU;
+        this.idPol = idP;
+        this.letter = letter;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        try {
+            Polozka p = ItemsManager.getFullItemByID(idPol, idUser);
+
+            EditImageDialog dialog = new EditImageDialog(new javax.swing.JFrame(), true, p.getPrijmeni(), p.getJmeno(), idPol, idUser, mw, letter);
+            dialog.setVisible(true);
             mw.createBussinessCard(mw.getHlavniPanel(), letter, true);
             mw.setNumberOfContacts();
         } catch (Exception ex) {
