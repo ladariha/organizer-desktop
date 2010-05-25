@@ -2,6 +2,9 @@
 # Organizer Desktop in time
 
 = Changelog =
+=== May 25, 2010 ===
+ * Added basic support for contact pictures (use right click on contact)
+ * UI fixes
 
 === Jan 21, 2010 ===
 Project was founded.
