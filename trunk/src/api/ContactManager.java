@@ -138,4 +138,5 @@ public class ContactManager {
         DatabaseManager.updateObecnyKontakt(kontakt);
     }
 
+
 }

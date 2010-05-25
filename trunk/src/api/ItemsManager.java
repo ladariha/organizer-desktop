@@ -117,12 +117,20 @@ public class ItemsManager {
         return (StringChecker.removeAccents(prijmeni)).substring(0, 1);
     }
 
+    public static void addImage(int idP, int idU, String path) throws Exception {
+        int idAdresare = DatabaseManager.getAdresarIDbyUserID(idU);
+        int idAdresare2 = DatabaseManager.getAdresarIDbyItemID(idP);
+        if (idAdresare == idAdresare2) {
+            DatabaseManager.addImage(idP, path);
+        }
+    }
+
     public static int countItems(int userID) throws Exception {
         int archivId = DatabaseManager.getAdresarIDbyUserID(userID);
         return DatabaseManager.getItemsCount(archivId);
     }
 
-    public static  int [] countIAll(int userID) throws Exception {
+    public static int[] countIAll(int userID) throws Exception {
         int archivId = DatabaseManager.getAdresarIDbyUserID(userID);
         return DatabaseManager.getFullCount(archivId);
     }
@@ -311,7 +319,7 @@ public class ItemsManager {
                         }
                     }
                 } catch (Exception a) {
-        //            a.printStackTrace();
+                    //            a.printStackTrace();
                 }
 
             }
@@ -513,7 +521,7 @@ public class ItemsManager {
                         }
                     }
                 } catch (Exception v) {
-            //        v.printStackTrace();
+                    //        v.printStackTrace();
                 }
             }
 
@@ -602,7 +610,7 @@ public class ItemsManager {
                         } catch (Exception exa) {
                             polozka.setSearchLetter("#");
                         }
-            //            g.printStackTrace();
+                        //            g.printStackTrace();
                     }
 
                     int idPolozky = saveItem(polozka, idAdresare);
@@ -660,7 +668,7 @@ public class ItemsManager {
                                             adr.setTyp("Neurčen");
                                         }
                                     } catch (Exception ad) {
-                                   //
+                                        //
                                         //ad.printStackTrace();
                                     }
                                 }
@@ -695,7 +703,7 @@ public class ItemsManager {
                                             ContactManager.addEmail(ob);
                                         }
                                     } catch (Exception ad) {
-                          //              ad.printStackTrace();
+                                        //              ad.printStackTrace();
                                     }
                                 }
                             }
@@ -757,7 +765,7 @@ public class ItemsManager {
                                         }
 
                                     } catch (Exception ad) {
-                          //              ad.printStackTrace();
+                                        //              ad.printStackTrace();
                                     }
                                 }
                             }
@@ -785,12 +793,12 @@ public class ItemsManager {
                                             ContactManager.addUrl(ob);
                                         }
                                     } catch (Exception ad) {
-                                     //   ad.printStackTrace();
+                                        //   ad.printStackTrace();
                                     }
                                 }
                             }
                         } catch (Exception ee) {
-                //            ee.printStackTrace();
+                            //            ee.printStackTrace();
                         }
                     }
                     importovano++;
@@ -913,7 +921,7 @@ public class ItemsManager {
                         } catch (Exception exa) {
                             polozka.setSearchLetter("#");
                         }
-               //         g.printStackTrace();
+                        //         g.printStackTrace();
                     }
 
                     int idPolozky = saveItem(polozka, idAdresare);
@@ -1111,7 +1119,7 @@ public class ItemsManager {
 
     public static void export(int idU, String absolutePath, String jmenoU, String prijmeniU, String format, Set<String> lettersToExport, int labelOrLetter) throws ParserConfigurationException, TransformerConfigurationException, TransformerException, IOException, Exception {
         List<Polozka> polozky;
-        
+
         if (format.equalsIgnoreCase("xml")) {
 
             if (labelOrLetter == 2) {
@@ -1179,7 +1187,7 @@ public class ItemsManager {
         ContactGroupEntry group = new ContactGroupEntry();
         group.setTitle(new PlainTextConstruct(name));
         URL url = new URL("http://www.google.com/m8/feeds/groups/" + username + "/full");
-        
+
         return service.insert(url, group);
     }
 

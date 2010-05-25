@@ -45,6 +45,7 @@
     </id>
     <property column="jmeno" name="jmeno" type="string"/>
     <property column="prijmeni" name="prijmeni" type="string"/>
+    <property column="image" name="imagePath" type="string"/>
     <property column="stitek" name="stitek" type="string"/>
     <set inverse="true" name="adresy" table="adresa">
       <key column="idPolozky"/>

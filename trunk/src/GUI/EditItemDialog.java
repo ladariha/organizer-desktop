@@ -67,6 +67,16 @@ public class EditItemDialog extends javax.swing.JDialog {
         this.idUser = idUser;
         this.mw = mw;
         initComponents();
+           String t;
+        try {
+            t = "" + ItemsManager.getLabelByID(id);
+        } catch (Exception ex) {
+            t = "";
+        }
+        if (t.equals("organizer")) {
+        } else {
+            jTextField3.setText(t);
+        }
         this.itemDialog = false;
         jTextField2.setText(jmeno);
         jTextField1.setText(prijmeni);
