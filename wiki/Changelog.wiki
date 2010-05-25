@@ -2,9 +2,23 @@
 # Organizer Desktop in time
 
 = Changelog =
+
 === May 25, 2010 ===
  * Added basic support for contact pictures (use right click on contact)
  * UI fixes
+
+=== Feb 2, 2010 ===
+ * Import from XML
+ * Few bugs fixed
+ * *Official version 1.0*
+
+=== Jan 31, 2010 ===
+ * CSV export to Outlook 2007 Czech
+ * Memory usage dialog, About dialog, small changes in UI 
+
+=== Jan 29, 2010 ===
+ * CSV import from Outlook 2007
+ * search contacts by name or label
 
 === Jan 21, 2010 ===
 Project was founded.
@@ -13,15 +27,4 @@ Key functions:
  * import/export Gmail
  * export XML/HTML
 
-=== Jan 29, 2010 ===
- * CSV import from Outlook 2007
- * search contacts by name or label
 
-=== Jan 31, 2010 ===
- * CSV export to Outlook 2007 Czech
- * Memory usage dialog, About dialog, small changes in UI 
-
-=== Feb 2, 2010 ===
- * Import from XML
- * Few bugs fixed
- * *Official version 1.0*
