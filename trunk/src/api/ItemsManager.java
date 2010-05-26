@@ -1467,4 +1467,16 @@ public class ItemsManager {
         BufferedReader b = new BufferedReader(in);
         return (b.readLine());
     }
+
+    public static void removeImage(int idP, int idU) throws Exception {
+        int idAdresare = DatabaseManager.getAdresarIDbyUserID(idU);
+        int idAdresare2 = DatabaseManager.getAdresarIDbyItemID(idP);
+        if (idAdresare == idAdresare2) {
+            DatabaseManager.removeImage(idP);
+        }
+    }
+
+    static String getImagePath(int idPolozky) {
+        return DatabaseManager.getImage(idPolozky);
+    }
 }

@@ -55,7 +55,7 @@ public class EditImageDialog extends javax.swing.JDialog {
      * @param idUser
      * @param mw
      */
-    public EditImageDialog(java.awt.Frame parent, boolean modal, String jmeno, String prijmeni, int id, int idUser, MainWindow mw,String letter) {
+    public EditImageDialog(java.awt.Frame parent, boolean modal, String jmeno, String prijmeni, int id, int idUser, MainWindow mw, String letter) {
         super(parent, modal);
         this.idPolozky = id;
         this.idUser = idUser;
@@ -82,13 +82,15 @@ public class EditImageDialog extends javax.swing.JDialog {
         jFileChooser1 = new javax.swing.JFileChooser();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Edit contact");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Edit image");
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/vcard_edit.png"))); // NOI18N
@@ -150,6 +152,16 @@ public class EditImageDialog extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Image from URL", jPanel3);
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 2, 10)); // NOI18N
+        jLabel2.setText("Images larger than 55x55 will be resized");
+
+        jButton2.setText("Remove image");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -159,8 +171,12 @@ public class EditImageDialog extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 530, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(63, 63, 63)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 252, Short.MAX_VALUE)
                         .addComponent(jLabel5)))
                 .addContainerGap())
         );
@@ -170,7 +186,12 @@ public class EditImageDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jButton2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)))
                 .addGap(10, 10, 10)
                 .addComponent(jTabbedPane1)
                 .addGap(52, 52, 52))
@@ -192,18 +213,17 @@ public class EditImageDialog extends javax.swing.JDialog {
 
     private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
         // TODO add your handling code here:
-
-
-
     }//GEN-LAST:event_jFileChooser1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+
+
         String image = jFileChooser1.getSelectedFile().getAbsolutePath();
         try {
             String path = ImageManager.saveImage(image, idPolozky);
             ItemsManager.addImage(idPolozky, idUser, path);
-               mw.createBussinessCard(mw.getHlavniPanel(), letter, true);
+            if(path.length()!=0)mw.createBussinessCard(mw.getHlavniPanel(), letter, true);
             this.setVisible(false);
         } catch (FileNotFoundException ex) {
             ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Contact image error", ex.getMessage());
@@ -214,6 +234,21 @@ public class EditImageDialog extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            ImageManager.removeImage(idPolozky);
+            ItemsManager.removeImage(idPolozky, idUser);
+            mw.createBussinessCard(mw.getHlavniPanel(), letter, true);
+            this.setVisible(false);
+        } catch (FileNotFoundException ex) {
+            ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Contact image error", ex.getMessage());
+            ed.setVisible(true);
+        } catch (Exception ex) {
+            ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Contact image error", ex.getMessage());
+            ed.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -225,8 +260,10 @@ public class EditImageDialog extends javax.swing.JDialog {
     private ItemDialog iDialog;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

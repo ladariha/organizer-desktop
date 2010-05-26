@@ -57,6 +57,7 @@ public class ItemDialog extends javax.swing.JDialog {
             this.letter = p.getSearchLetter();
             this.idP = idItem;
             this.idUser = idUser;
+            String path = p.getImagePath();
             this.main = main;
             Set kontakty = p.getKontakty();
             // najit telefony
@@ -115,10 +116,11 @@ public class ItemDialog extends javax.swing.JDialog {
             this.prijmeni = checker.removeAscii(p.getJmeno());
             this.setTitle(checker.removeAscii(p.getPrijmeni()) + ", " + checker.removeAscii(p.getJmeno()));
             jLabel1.setText("<html>" + p.getPrijmeni() + ", " + p.getJmeno());
-            createBussinessCard(radkySloupecA, radkySloupecB, adresyAA, maily, urls, telefony, ims, other);
+            createBussinessCard(path,radkySloupecA, radkySloupecB, adresyAA, maily, urls, telefony, ims, other);
             //        this.setAlwaysOnTop(false);
         } catch (Exception ex) {
-            ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Error with contact", ex.getMessage());
+            ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Error with contact", ex.getMessage()+" "+ex.toString());
+            ex.printStackTrace();
             ed.setVisible(true);
         }
     }
@@ -189,7 +191,7 @@ public class ItemDialog extends javax.swing.JDialog {
             this.prijmeni = checker.removeAscii(p.getJmeno());
             this.setTitle(checker.removeAscii(p.getPrijmeni()) + ", " + checker.removeAscii(p.getJmeno()));
             jLabel1.setText("<html>" + p.getPrijmeni() + ", " + p.getJmeno());
-            createBussinessCard(radkySloupecA, radkySloupecB, adresyAA, maily, urls, telefony, ims, other);
+            createBussinessCard(p.getImagePath(),radkySloupecA, radkySloupecB, adresyAA, maily, urls, telefony, ims, other);
             //        this.setAlwaysOnTop(false);
         } catch (Exception ex) {
             ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Error with contact", ex.getMessage());
@@ -227,9 +229,9 @@ public class ItemDialog extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(153, 153, 153))); // NOI18N
-        jPanel1.setMaximumSize(new java.awt.Dimension(400, 49));
-        jPanel1.setMinimumSize(new java.awt.Dimension(400, 49));
-        jPanel1.setPreferredSize(new java.awt.Dimension(400, 40));
+        jPanel1.setMaximumSize(new java.awt.Dimension(400, 90));
+        jPanel1.setMinimumSize(new java.awt.Dimension(400, 90));
+        jPanel1.setPreferredSize(new java.awt.Dimension(410, 65));
 
         jLabel1.setBackground(new java.awt.Color(238, 238, 238));
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -238,6 +240,8 @@ public class ItemDialog extends javax.swing.JDialog {
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/vcard.png"))); // NOI18N
+        jLabel2.setMaximumSize(new java.awt.Dimension(55, 55));
+        jLabel2.setMinimumSize(new java.awt.Dimension(55, 55));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -245,18 +249,18 @@ public class ItemDialog extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addContainerGap())
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
@@ -449,9 +453,13 @@ public class ItemDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-    private void createBussinessCard(int pocetA, int pocetB, Adresa[] adresyAA, ObecnyKontakt[] maily, ObecnyKontakt[] urls, ObecnyKontakt[] telefony, ObecnyKontakt[] ims, ObecnyKontakt[] other) {
+    private void createBussinessCard(String path,int pocetA, int pocetB, Adresa[] adresyAA, ObecnyKontakt[] maily, ObecnyKontakt[] urls, ObecnyKontakt[] telefony, ObecnyKontakt[] ims, ObecnyKontakt[] other) {
         StringChecker checker = new StringChecker();
 //        int pocetRadku = Math.max(pocetA, pocetB);
+      if(path.trim().length()!=0){
+jLabel2.setIcon(new javax.swing.ImageIcon((path))); // NOI18N
+}
+
         jPanel3 = new javax.swing.JPanel();
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new java.awt.GridLayout(1, 2, 0, 0));
