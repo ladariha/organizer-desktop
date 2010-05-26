@@ -240,6 +240,7 @@ public class DatabaseManager {
         Polozka p = new Polozka();
         p.setJmeno(jmeno);
         p.setPrijmeni(prijmeni);
+        p.setImagePath(" ");
         p.setStitek(stitek);
         p.setIdAdresare(idAdresare);
         String tmp = StringChecker.removeAccents(prijmeni);
@@ -563,6 +564,27 @@ public class DatabaseManager {
         p.setImagePath(path);
         session.save(p);
         session.getTransaction().commit();
+    }
+
+    public static void removeImage(int idP) {
+        Session session = NewHibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query q = session.createQuery("FROM Polozka WHERE id=" + idP + "");
+        List<Polozka> polozky = q.list();
+        Polozka p = polozky.get(0);
+        p.setImagePath(" ");
+        session.save(p);
+        session.getTransaction().commit();
+    }
+
+    public static String getImage(int idPolozky) {
+         Session session = NewHibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query q = session.createQuery("FROM Polozka WHERE id=" + idPolozky + "");
+        List<Polozka> polozky = q.list();
+        Polozka p = polozky.get(0);
+        session.getTransaction().commit();
+        return p.getImagePath();
     }
 
     private void executeHQLQuery(String hql) {

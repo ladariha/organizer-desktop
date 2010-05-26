@@ -155,7 +155,11 @@ public class MainWindow extends javax.swing.JFrame {
                 JButton b = new JButton();
 
                 tmp = polozky.get(j);
-                b.setIcon(new javax.swing.ImageIcon(tmp.getImagePath()));
+                b.setIcon(null);
+                if(tmp.getImagePath().trim().length()!=0){
+      
+                b.setIcon(new javax.swing.ImageIcon(tmp.getImagePath()));   
+                }
                 b.setVerticalTextPosition(SwingConstants.CENTER);
                 b.setHorizontalTextPosition(SwingConstants.RIGHT);
                 b.setIconTextGap(50);

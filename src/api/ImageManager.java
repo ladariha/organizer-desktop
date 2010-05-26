@@ -32,7 +32,7 @@ public class ImageManager {
         // copy file
         File image = new File(path);
         FileChannel inChannel = new FileInputStream(image).getChannel();
-        File dir = new File(System.getProperty("user.home") +sep+ "organizer"+sep+"images"+sep);
+        File dir = new File(System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep);
         boolean created = false;
         if (!dir.exists()) {
             created = dir.mkdirs();
@@ -45,7 +45,15 @@ public class ImageManager {
                 resizeAndSaveImage(image, idPol);
 
             } else {
-                newImage = new File(System.getProperty("user.home") +sep+ "organizer"+sep+"images"+sep + idPol + ".jpg");
+                newImage = new File(System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg");
+
+                
+                if (newImage.exists()) {
+                boolean dl = newImage.delete();
+                newImage = new File(System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg");
+                boolean cr = newImage.createNewFile();
+                }
+                
                 FileChannel outChannel = new FileOutputStream(newImage).getChannel();
                 inChannel.transferTo(0, inChannel.size(), outChannel);
                 if (inChannel != null) {
@@ -54,12 +62,12 @@ public class ImageManager {
                 if (outChannel != null) {
                     outChannel.close();
                 }
-            System.out.println("FIEL "+newImage.exists());
+
             }
-            
-            return System.getProperty("user.home") +sep+ "organizer"+sep+"images"+sep + idPol + ".jpg";
+
+            return System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg";
         } else {
-            throw new Exception("Unable to create directory "+System.getProperty("user.home") +sep+ "organizer"+sep+"images"+sep);
+            throw new Exception("Unable to create directory " + System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep);
         }
     }
 
@@ -97,14 +105,26 @@ public class ImageManager {
         if (height >= width) {
             newHeight = 55;
             change = (float) ((float) height / (float) newHeight);
-            System.out.println("Change e " + change);
             newWidth = (int) (width / change);
         }
 
         BufferedImage originalImage = ImageIO.read(image);
         ResampleOp resampleOp = new ResampleOp(newWidth, newHeight);
         BufferedImage resizedImage = resampleOp.filter(originalImage, null);
-        ImageIO.write(resizedImage, "jpg", new File(System.getProperty("user.home") + sep+"organizer"+sep+"images"+sep + idPol + ".jpg"));
 
+        File newImage = new File(System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg");
+        
+        if (newImage.exists()) {
+            newImage.delete();
+        }
+        newImage = new File(System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg");
+        ImageIO.write(resizedImage, "jpg", newImage);
+
+    }
+
+    public static void removeImage(int idPolozky) {
+        String path = ItemsManager.getImagePath(idPolozky);
+        File f = new File(path);
+        f.delete();
     }
 }
