@@ -3,11 +3,11 @@
 
 = Changelog =
 
-=== May 25, 2010 ===
+=== v1.1 - May 27, 2010 ===
  * Added basic support for contact pictures (use right click on contact)
  * UI fixes
 
-=== Feb 2, 2010 ===
+=== v1.0 - Feb 2, 2010 ===
  * Import from XML
  * Few bugs fixed
  * *Official version 1.0*
@@ -26,5 +26,3 @@ Key functions:
  * delete/edit/add contacts
  * import/export Gmail
  * export XML/HTML
-
-
