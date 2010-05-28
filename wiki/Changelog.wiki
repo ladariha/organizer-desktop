@@ -3,6 +3,9 @@
 
 = Changelog =
 
+=== v1.2 - May 29, 2010 ===
+ * Support for images from URL address
+
 === v1.1 - May 27, 2010 ===
  * Added basic support for contact pictures (use right click on contact)
  * UI fixes
