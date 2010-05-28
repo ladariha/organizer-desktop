@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.util.Iterator;
 import javax.imageio.ImageIO;
@@ -28,9 +29,27 @@ public class ImageManager {
     private static int width;
     private static String sep = System.getProperty("file.separator");
 
-    public static String saveImage(String path, int idPol) throws FileNotFoundException, Exception {
+    public static String saveImage(String path, int idPol, String usedPath) throws FileNotFoundException, Exception {
         // copy file
         File image = new File(path);
+        String p = "";
+        String toDelete = "";
+        if (usedPath.length() > 0) {
+            if (usedPath.endsWith("_.jpg")) {
+                p = System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg";
+                toDelete = System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + "_.jpg";
+
+            } else {
+                toDelete = System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg";
+                p = System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + "_.jpg";
+            }
+
+
+        } else {
+            p = System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg";
+
+        }
+
         FileChannel inChannel = new FileInputStream(image).getChannel();
         File dir = new File(System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep);
         boolean created = false;
@@ -39,21 +58,27 @@ public class ImageManager {
         }
 
         if (dir.exists() || created) {
+            if (toDelete.length() > 0) {
+                File toDeleteFile = new File(toDelete);
+                toDeleteFile.delete();
+            }
             boolean resize = isResizeNeccessery(image);
             File newImage;
+            newImage = new File(p);
             if (resize) {
-                resizeAndSaveImage(image, idPol);
+                resizeAndSaveImage(image, idPol, newImage);
 
             } else {
-                newImage = new File(System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg");
 
-                
+
+
+                /**
                 if (newImage.exists()) {
                 boolean dl = newImage.delete();
                 newImage = new File(System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg");
                 boolean cr = newImage.createNewFile();
                 }
-                
+                 **/
                 FileChannel outChannel = new FileOutputStream(newImage).getChannel();
                 inChannel.transferTo(0, inChannel.size(), outChannel);
                 if (inChannel != null) {
@@ -65,7 +90,7 @@ public class ImageManager {
 
             }
 
-            return System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg";
+            return p;
         } else {
             throw new Exception("Unable to create directory " + System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep);
         }
@@ -94,7 +119,7 @@ public class ImageManager {
         return false;
     }
 
-    private static void resizeAndSaveImage(File image, int idPol) throws IOException {
+    private static void resizeAndSaveImage(File image, int idPol, File newImage) throws IOException {
         int newHeight;
         int newWidth;
         newWidth = 55;
@@ -112,12 +137,15 @@ public class ImageManager {
         ResampleOp resampleOp = new ResampleOp(newWidth, newHeight);
         BufferedImage resizedImage = resampleOp.filter(originalImage, null);
 
-        File newImage = new File(System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg");
-        
-        if (newImage.exists()) {
-            newImage.delete();
+
+        //newImage = new File(System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg");
+        System.out.println("IMAGE p " + image.getAbsolutePath());
+        if (resizedImage == null) {
+            System.out.println("RES NULL");
         }
-        newImage = new File(System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg");
+        if (newImage == null) {
+            System.out.println("NEW NULL");
+        }
         ImageIO.write(resizedImage, "jpg", newImage);
 
     }
@@ -126,5 +154,30 @@ public class ImageManager {
         String path = ItemsManager.getImagePath(idPolozky);
         File f = new File(path);
         f.delete();
+    }
+
+    public static String getImageFromURL(URL url, int idPolozky, String usedPath) throws IOException, FileNotFoundException, Exception {
+
+        File dir = new File(System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep);
+        boolean created = false;
+        if (!dir.exists()) {
+            created = dir.mkdirs();
+        }
+
+        BufferedImage img = ImageIO.read(url);
+        String p = System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPolozky + "__.jpg";
+        File image = new File(p);
+        image.deleteOnExit();
+        if (!image.exists()) {
+            image.createNewFile();
+        }
+
+        ResampleOp resampleOp = new ResampleOp(img.getWidth(), img.getHeight());
+        BufferedImage resizedImage = resampleOp.filter(img, null);
+
+        ImageIO.write(resizedImage, "jpg", image);
+
+        return saveImage(p, idPolozky, usedPath);
+
     }
 }

@@ -1476,7 +1476,9 @@ public class ItemsManager {
         }
     }
 
-    static String getImagePath(int idPolozky) {
+    public static String getImagePath(int idPolozky) {
         return DatabaseManager.getImage(idPolozky);
     }
+
+
 }
