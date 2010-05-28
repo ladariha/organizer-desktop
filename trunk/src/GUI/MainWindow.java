@@ -98,7 +98,7 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
         } catch (Exception ex) {
-            ErrorDialog ed = new ErrorDialog((this), true, "Error with labels", ex.getMessage());
+            ErrorDialog ed = new ErrorDialog((this), true, "Error with labels", ex.toString());
             ed.setVisible(true);
         }
     }
@@ -193,7 +193,7 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
         } catch (Exception ex) {
-            ErrorDialog ed = new ErrorDialog((this), true, "Error gettin contacts", ex.getMessage());
+            ErrorDialog ed = new ErrorDialog((this), true, "Error getting contacts", ex.toString());
             ed.setVisible(true);
         }
         p.revalidate();
@@ -260,7 +260,7 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
         } catch (Exception ex) {
-            ErrorDialog ed = new ErrorDialog((this), true, "Error gettin contacts", ex.getMessage());
+            ErrorDialog ed = new ErrorDialog((this), true, "Error getting contacts", ex.toString());
             ed.setVisible(true);
         }
         p.revalidate();
@@ -1290,7 +1290,7 @@ class DeleteItemPopListener implements ActionListener {
             mw.createBussinessCard(mw.getHlavniPanel(), letter, true);
             mw.setNumberOfContacts();
         } catch (Exception ex) {
-            ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Error with contact", ex.getMessage());
+            ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Error with contact", ex.toString());
             ed.setVisible(true);
         }
     }
@@ -1319,7 +1319,7 @@ class EditContactItemPopListener implements ActionListener {
             mw.createBussinessCard(mw.getHlavniPanel(), letter, true);
             mw.setNumberOfContacts();
         } catch (Exception ex) {
-            ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Error with contact", ex.getMessage());
+            ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Error with contact", ex.toString());
             ed.setVisible(true);
         }
     }
@@ -1348,7 +1348,8 @@ class EditImageItemPopListener implements ActionListener {
             mw.createBussinessCard(mw.getHlavniPanel(), letter, true);
             mw.setNumberOfContacts();
         } catch (Exception ex) {
-            ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Error with contact", ex.getMessage());
+            ex.printStackTrace();
+            ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Error with contact",ex.toString());
             ed.setVisible(true);
         }
     }

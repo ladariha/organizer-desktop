@@ -13,6 +13,10 @@ package GUI;
 import api.ImageManager;
 import api.ItemsManager;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -42,7 +46,7 @@ public class EditImageDialog extends javax.swing.JDialog {
         this.idUser = idUser;
         this.mw = mw;
         this.iDialog = iDialog;
-
+        jLabel4.setVisible(false);
     }
 
     /**
@@ -61,7 +65,9 @@ public class EditImageDialog extends javax.swing.JDialog {
         this.idUser = idUser;
         this.mw = mw;
         this.letter = letter;
+  
         initComponents();
+              jLabel4.setVisible(false);
         jFileChooser1.addChoosableFileFilter(new FileNameExtensionFilter("JPEG file (*.jpg)", "jpg"));
     }
 
@@ -82,6 +88,10 @@ public class EditImageDialog extends javax.swing.JDialog {
         jFileChooser1 = new javax.swing.JFileChooser();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
 
@@ -90,7 +100,7 @@ public class EditImageDialog extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12));
         jLabel1.setText("Edit image");
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/vcard_edit.png"))); // NOI18N
@@ -139,20 +149,61 @@ public class EditImageDialog extends javax.swing.JDialog {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
+        jButton3.setText("Add image");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Enter URL address:");
+
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                hideWarning(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel4.setText("Malformed URL");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 621, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabel3)
+                .addContainerGap(502, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(515, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addGap(23, 23, 23))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(70, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(75, 75, 75))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 408, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addGap(5, 5, 5)
+                .addComponent(jButton3)
+                .addContainerGap(290, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Image from URL", jPanel3);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 2, 10)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 2, 10));
         jLabel2.setText("Images larger than 55x55 will be resized");
 
         jButton2.setText("Remove image");
@@ -221,9 +272,15 @@ public class EditImageDialog extends javax.swing.JDialog {
 
         String image = jFileChooser1.getSelectedFile().getAbsolutePath();
         try {
-            String path = ImageManager.saveImage(image, idPolozky);
+            String imagePath = ItemsManager.getImagePath(idPolozky);
+            if (imagePath == null) {
+                imagePath = "";
+            }
+            String path = ImageManager.saveImage(image, idPolozky, imagePath.trim());
             ItemsManager.addImage(idPolozky, idUser, path);
-            if(path.length()!=0)mw.createBussinessCard(mw.getHlavniPanel(), letter, true);
+            if (path.length() != 0) {
+                mw.createBussinessCard(mw.getHlavniPanel(), letter, true);
+            }
             this.setVisible(false);
         } catch (FileNotFoundException ex) {
             ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Contact image error", ex.getMessage());
@@ -249,6 +306,40 @@ public class EditImageDialog extends javax.swing.JDialog {
             ed.setVisible(true);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        if (jTextField1.getText().trim().length() > 0) {
+            try {
+                String imagePath = ItemsManager.getImagePath(idPolozky);
+                if (imagePath == null) {
+                    imagePath = "";
+                }
+                URL url = new URL(jTextField1.getText().trim());
+                String path = ImageManager.getImageFromURL(url, idPolozky, imagePath.trim());
+                ItemsManager.addImage(idPolozky, idUser, path);
+                if (path.length() != 0) {
+                    mw.createBussinessCard(mw.getHlavniPanel(), letter, true);
+                }
+                this.setVisible(false);
+            } catch (MalformedURLException ex) {
+                jLabel4.setVisible(true);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Contact image error", ex.getMessage());
+                ed.setVisible(true);
+            }
+
+
+
+
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void hideWarning(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_hideWarning
+        // TODO add your handling code here:
+        jLabel4.setVisible(false);
+    }//GEN-LAST:event_hideWarning
     /**
      * @param args the command line arguments
      */
@@ -261,13 +352,17 @@ public class EditImageDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
