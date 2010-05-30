@@ -582,6 +582,7 @@ public class DatabaseManager {
         session.beginTransaction();
         Query q = session.createQuery("FROM Polozka WHERE id=" + idPolozky + "");
         List<Polozka> polozky = q.list();
+
         Polozka p = polozky.get(0);
         session.getTransaction().commit();
         return p.getImagePath();

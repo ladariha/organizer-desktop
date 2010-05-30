@@ -456,7 +456,7 @@ public class ItemDialog extends javax.swing.JDialog {
     private void createBussinessCard(String path,int pocetA, int pocetB, Adresa[] adresyAA, ObecnyKontakt[] maily, ObecnyKontakt[] urls, ObecnyKontakt[] telefony, ObecnyKontakt[] ims, ObecnyKontakt[] other) {
         StringChecker checker = new StringChecker();
 //        int pocetRadku = Math.max(pocetA, pocetB);
-      if(path.trim().length()!=0){
+      if(path !=null && path.trim().length()!=0){
 jLabel2.setIcon(new javax.swing.ImageIcon((path))); // NOI18N
 }
 

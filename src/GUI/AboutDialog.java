@@ -48,10 +48,10 @@ public class AboutDialog extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14));
         jLabel1.setText("Organizer Desktop");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel2.setText("Author:");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -61,8 +61,8 @@ public class AboutDialog extends javax.swing.JDialog {
 
         jLabel5.setText("<html>(<a href=\"mailto:riha.vladimir@gmail.com\">riha.vladimir@gmail.com</a>)");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel6.setText("Version: 1.0");
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setText("Version: 1.25");
 
         jButton1.setText("OK");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
