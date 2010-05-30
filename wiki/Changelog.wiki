@@ -3,6 +3,9 @@
 
 = Changelog =
 
+=== v1.25 - May 30, 2010 ===
+ * Support for importing images from Gmail
+
 === v1.2 - May 29, 2010 ===
  * Support for images from URL address
 
