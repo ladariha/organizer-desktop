@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.util.Iterator;
@@ -139,21 +140,19 @@ public class ImageManager {
 
 
         //newImage = new File(System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg");
-        System.out.println("IMAGE p " + image.getAbsolutePath());
-        if (resizedImage == null) {
-            System.out.println("RES NULL");
-        }
-        if (newImage == null) {
-            System.out.println("NEW NULL");
-        }
+
         ImageIO.write(resizedImage, "jpg", newImage);
 
     }
 
     public static void removeImage(int idPolozky) {
         String path = ItemsManager.getImagePath(idPolozky);
-        File f = new File(path);
-        f.delete();
+        if (path != null) {
+            File f = new File(path);
+            if (f.exists()) {
+                f.delete();
+            }
+        }
     }
 
     public static String getImageFromURL(URL url, int idPolozky, String usedPath) throws IOException, FileNotFoundException, Exception {
@@ -179,5 +178,29 @@ public class ImageManager {
 
         return saveImage(p, idPolozky, usedPath);
 
+    }
+
+    public static String getImageFromGmail(InputStream is, int idPolozky) throws IOException, FileNotFoundException, Exception {
+    
+        File dir = new File(System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep);
+        boolean created = false;
+        if (!dir.exists()) {
+            created = dir.mkdirs();
+        }
+    
+        BufferedImage img = ImageIO.read(is);
+    
+        String p = System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPolozky + "_.jpg";
+        File image = new File(p);
+        image.deleteOnExit();
+        if (!image.exists()) {
+            image.createNewFile();
+        }
+    
+        ResampleOp resampleOp = new ResampleOp(img.getWidth(), img.getHeight());
+        BufferedImage resizedImage = resampleOp.filter(img, null);
+
+        ImageIO.write(resizedImage, "jpg", image);
+        return saveImage(p, idPolozky, "");
     }
 }

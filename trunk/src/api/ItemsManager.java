@@ -16,11 +16,13 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import util.StringChecker;
 import com.google.gdata.client.*;
+import com.google.gdata.client.Service.GDataRequest;
 import com.google.gdata.client.contacts.*;
 import com.google.gdata.data.*;
 import com.google.gdata.data.contacts.*;
 import com.google.gdata.data.extensions.*;
 import com.google.gdata.util.*;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -28,6 +30,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
@@ -37,6 +40,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
+import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -103,7 +107,9 @@ public class ItemsManager {
         int idAdresare = DatabaseManager.getAdresarIDbyUserID(idU);
         int idAdresare2 = DatabaseManager.getAdresarIDbyItemID(idP);
         if (idAdresare == idAdresare2) {
+            ImageManager.removeImage(idP);
             DatabaseManager.deleteItem(idP);
+            
         }
     }
 
@@ -561,6 +567,7 @@ public class ItemsManager {
 
             try {
                 com.google.gdata.data.contacts.ContactEntry entry = resultFeed.getEntries().get(i);
+
                 Name name = entry.getName();
                 String jmeno = entry.getName().getFullName().getValue().trim();
 
@@ -615,6 +622,10 @@ public class ItemsManager {
 
                     int idPolozky = saveItem(polozka, idAdresare);
                     if (idPolozky != -1) {
+
+                    String path = importGmailImage(entry, myService, idPolozky);
+                                 addImage(idPolozky, idUser, path);
+
                         try {
                             List<StructuredPostalAddress> adressy = entry.getStructuredPostalAddresses();
                             if (adressy != null) {
@@ -926,6 +937,8 @@ public class ItemsManager {
 
                     int idPolozky = saveItem(polozka, idAdresare);
                     if (idPolozky != -1) {
+                             String path = importGmailImage(entry, myService, idPolozky);
+                                 addImage(idPolozky, idU, path);
                         try {
                             List<StructuredPostalAddress> adressy = entry.getStructuredPostalAddresses();
                             if (adressy != null) {
@@ -941,7 +954,7 @@ public class ItemsManager {
                                             try {
                                                 adr.setTyp(adresa.getLabel());
                                             } catch (Exception e) {
-                                                adr.setTyp("Neurčeno");
+                                                adr.setTyp("Unknown");
                                             }
                                         }
 
@@ -976,7 +989,7 @@ public class ItemsManager {
                                             }
                                             ContactManager.addAddress(adr);
                                         } catch (Exception ex) {
-                                            adr.setTyp("Neurčen");
+                                            adr.setTyp("Unknown");
                                         }
                                     } catch (Exception ad) {
                                     }
@@ -1000,7 +1013,7 @@ public class ItemsManager {
                                                 try {
                                                     ob.setOznaceni(mail.getLabel());
                                                 } catch (Exception e) {
-                                                    ob.setOznaceni("Neurčen");
+                                                    ob.setOznaceni("Unknown");
                                                 }
                                             }
 
@@ -1030,7 +1043,7 @@ public class ItemsManager {
                                             try {
                                                 ob.setOznaceni(cislo.getLabel());
                                             } catch (Exception e) {
-                                                ob.setOznaceni("Neurčeno");
+                                                ob.setOznaceni("Unknown");
                                             }
                                         }
                                         ContactManager.addPhone(ob);
@@ -1054,7 +1067,7 @@ public class ItemsManager {
                                                 try {
                                                     ob.setOznaceni(im.getLabel());
                                                 } catch (Exception e) {
-                                                    ob.setOznaceni("Neurčen");
+                                                    ob.setOznaceni("Unknown");
                                                 }
                                             }
 
@@ -1065,7 +1078,7 @@ public class ItemsManager {
                                                 try {
                                                     ob.setTyp2(im.getProtocol());
                                                 } catch (Exception e) {
-                                                    ob.setTyp2("Neurčen");
+                                                    ob.setTyp2("Unknown");
                                                 }
                                             }
                                             ContactManager.addIm(ob);
@@ -1092,7 +1105,7 @@ public class ItemsManager {
                                                 try {
                                                     ob.setOznaceni(web.getLabel());
                                                 } catch (Exception e) {
-                                                    ob.setOznaceni("Neurčen");
+                                                    ob.setOznaceni("Unknown");
                                                 }
                                             }
                                             ContactManager.addUrl(ob);
@@ -1480,5 +1493,13 @@ public class ItemsManager {
         return DatabaseManager.getImage(idPolozky);
     }
 
-
+    private static String importGmailImage(com.google.gdata.data.contacts.ContactEntry entry, ContactsService myService, int idPol) throws IOException, ServiceException, FileNotFoundException, Exception {
+        Link image = entry.getContactPhotoLink();
+        if (image != null) {
+            InputStream is = myService.getStreamFromLink(image);
+            String ret =  ImageManager.getImageFromGmail(is, idPol);
+            return ret;
+        }
+        return "";
+    }
 }

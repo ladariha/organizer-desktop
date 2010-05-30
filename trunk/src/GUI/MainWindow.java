@@ -156,7 +156,7 @@ public class MainWindow extends javax.swing.JFrame {
 
                 tmp = polozky.get(j);
                 b.setIcon(null);
-                if(tmp.getImagePath().trim().length()!=0){
+                if(tmp.getImagePath()!=null && tmp.getImagePath().trim().length()!=0){
       
                 b.setIcon(new javax.swing.ImageIcon(tmp.getImagePath()));   
                 }
@@ -193,6 +193,7 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             ErrorDialog ed = new ErrorDialog((this), true, "Error getting contacts", ex.toString());
             ed.setVisible(true);
         }
@@ -260,6 +261,7 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             ErrorDialog ed = new ErrorDialog((this), true, "Error getting contacts", ex.toString());
             ed.setVisible(true);
         }
@@ -1290,6 +1292,7 @@ class DeleteItemPopListener implements ActionListener {
             mw.createBussinessCard(mw.getHlavniPanel(), letter, true);
             mw.setNumberOfContacts();
         } catch (Exception ex) {
+            ex.printStackTrace();
             ErrorDialog ed = new ErrorDialog(new javax.swing.JFrame(), true, "Error with contact", ex.toString());
             ed.setVisible(true);
         }
