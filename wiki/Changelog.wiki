@@ -3,8 +3,11 @@
 
 = Changelog =
 
+=== v1.3 - June 7, 2010 ===
+ * Contact images export to Gmail 
+
 === v1.25 - May 30, 2010 ===
- * Support for importing images from Gmail
+ * Support for import images from Gmail
 
 === v1.2 - May 29, 2010 ===
  * Support for images from URL address
