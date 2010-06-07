@@ -32,6 +32,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -109,7 +110,7 @@ public class ItemsManager {
         if (idAdresare == idAdresare2) {
             ImageManager.removeImage(idP);
             DatabaseManager.deleteItem(idP);
-            
+
         }
     }
 
@@ -623,8 +624,8 @@ public class ItemsManager {
                     int idPolozky = saveItem(polozka, idAdresare);
                     if (idPolozky != -1) {
 
-                    String path = importGmailImage(entry, myService, idPolozky);
-                                 addImage(idPolozky, idUser, path);
+                        String path = importGmailImage(entry, myService, idPolozky);
+                        addImage(idPolozky, idUser, path);
 
                         try {
                             List<StructuredPostalAddress> adressy = entry.getStructuredPostalAddresses();
@@ -937,8 +938,8 @@ public class ItemsManager {
 
                     int idPolozky = saveItem(polozka, idAdresare);
                     if (idPolozky != -1) {
-                             String path = importGmailImage(entry, myService, idPolozky);
-                                 addImage(idPolozky, idU, path);
+                        String path = importGmailImage(entry, myService, idPolozky);
+                        addImage(idPolozky, idU, path);
                         try {
                             List<StructuredPostalAddress> adressy = entry.getStructuredPostalAddresses();
                             if (adressy != null) {
@@ -1271,7 +1272,40 @@ public class ItemsManager {
         groupInfo.setDeleted(false);
         groupInfo.setHref(groupID);
         contact.addGroupMembershipInfo(groupInfo);
-        myService.insert(feedURL, contact);
+        com.google.gdata.data.contacts.ContactEntry ee = (com.google.gdata.data.contacts.ContactEntry) myService.insert(feedURL, contact);
+
+        if (p.getImagePath() != null && p.getImagePath().trim().length() > 0) {
+
+            // read bytes
+            File picture = new File(p.getImagePath());
+            long size = picture.length();
+            if (size < Integer.MAX_VALUE) {
+
+                InputStream is = new FileInputStream(picture);
+                byte[] bytes = new byte[(int) size];
+
+                // Read in the bytes
+                int offset = 0;
+                int num = 0;
+                while (offset < bytes.length && (num = is.read(bytes, offset, bytes.length - offset)) >= 0) {
+                    offset += num;
+                }
+
+                if (offset < bytes.length) {
+                    throw new IOException("Could not read file " + picture.getName());
+                }
+
+                is.close();
+
+                Link photoLink = ee.getContactPhotoLink();
+                URL photoUrl = new URL(photoLink.getHref());
+
+                GDataRequest request = myService.createRequest(GDataRequest.RequestType.UPDATE,  photoUrl, new ContentType("image/jpeg"));
+                OutputStream requestStream = request.getRequestStream();
+                requestStream.write(bytes);
+                request.execute();
+            }
+        }
     }
 
     public static String exportGmail(int idU, String username, char[] passwordChar, String name, Set<String> labelsToExport, boolean labels) throws MalformedURLException, AuthenticationException, ServiceException, IOException, Exception {
@@ -1497,7 +1531,7 @@ public class ItemsManager {
         Link image = entry.getContactPhotoLink();
         if (image != null) {
             InputStream is = myService.getStreamFromLink(image);
-            String ret =  ImageManager.getImageFromGmail(is, idPol);
+            String ret = ImageManager.getImageFromGmail(is, idPol);
             return ret;
         }
         return "";
