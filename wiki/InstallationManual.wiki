@@ -8,7 +8,17 @@ To launch Organizer Desktop you need to install:
 
 === Java Runtime Environment ===
 You can download from http://java.com/en/download/manual.jsp. This site also contains instructions for installation.
- 
+
+=== External libraries ===
+Project requires some external libraries. They are all in main file OrganizerDesktop.zip.
+
+Links to some used libraries:
+ # Image Scaling: http://code.google.com/p/java-image-scaling/
+ # Charset detector: http://jchardet.sourceforge.net/
+
+Other libraries:
+ # Hibernate, Google API...
+
 === MySQL Database ===
 You can either download just database from http://dev.mysql.com/downloads/ or you can download same software, that often contains more services like web server Apache, FTP client FileZilla or other components. Personally, I'm using XAMPP (avaliable at http://www.apachefriends.org/en/xampp.html) and it works perfectly. XAMPP supports all platforms (Windows, Mac, Linux or Solaris).
 
