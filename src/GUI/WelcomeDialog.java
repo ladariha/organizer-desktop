@@ -95,7 +95,6 @@ public class WelcomeDialog extends javax.swing.JDialog {
 
         jLabel2.setText("Password:");
 
-        jTextField1.setText("riha.vladimir@gmail.com");
         jTextField1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,7 +102,6 @@ public class WelcomeDialog extends javax.swing.JDialog {
             }
         });
 
-        jPasswordField1.setText("heslo");
         jPasswordField1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jButton2.setMnemonic('R');
