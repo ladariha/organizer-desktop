@@ -103,7 +103,7 @@ public class CSVParser {
      */
     private int processData(String records, String[] header, String label, int abID) {
         try {
-            System.out.println("RR " + records);
+            
             fieldsToDel = new ArrayList<Integer>();
             records = records.replaceAll("\"", "");
             Polozka contact = new Polozka();
