@@ -127,7 +127,6 @@ public class ImageManager {
         float change = change = (float) ((float) width / (float) newWidth);
         newHeight = (int) (height / change);
 
-
         if (height >= width) {
             newHeight = 55;
             change = (float) ((float) height / (float) newHeight);
@@ -137,12 +136,7 @@ public class ImageManager {
         BufferedImage originalImage = ImageIO.read(image);
         ResampleOp resampleOp = new ResampleOp(newWidth, newHeight);
         BufferedImage resizedImage = resampleOp.filter(originalImage, null);
-
-
-        //newImage = new File(System.getProperty("user.home") + sep + "organizer" + sep + "images" + sep + idPol + ".jpg");
-
         ImageIO.write(resizedImage, "jpg", newImage);
-
     }
 
     public static void removeImage(int idPolozky) {
@@ -173,7 +167,6 @@ public class ImageManager {
 
         ResampleOp resampleOp = new ResampleOp(img.getWidth(), img.getHeight());
         BufferedImage resizedImage = resampleOp.filter(img, null);
-
         ImageIO.write(resizedImage, "jpg", image);
 
         return saveImage(p, idPolozky, usedPath);
@@ -199,8 +192,8 @@ public class ImageManager {
     
         ResampleOp resampleOp = new ResampleOp(img.getWidth(), img.getHeight());
         BufferedImage resizedImage = resampleOp.filter(img, null);
-
         ImageIO.write(resizedImage, "jpg", image);
+        
         return saveImage(p, idPolozky, "");
     }
 }
