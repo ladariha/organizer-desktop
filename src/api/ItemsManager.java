@@ -558,7 +558,7 @@ public class ItemsManager {
 
         URL feedUrl = new URL("http://www.google.com/m8/feeds/contacts/" + username + "/full");
         Query myQuery = new Query(feedUrl);
-        myQuery.setMaxResults(3000);
+        myQuery.setMaxResults(30000);
         com.google.gdata.data.contacts.ContactFeed resultFeed = myService.query(myQuery, com.google.gdata.data.contacts.ContactFeed.class);
 
         int importovano = 0;
@@ -623,10 +623,14 @@ public class ItemsManager {
 
                     int idPolozky = saveItem(polozka, idAdresare);
                     if (idPolozky != -1) {
+                        //System.out.println("JA " + polozka.getJmeno() + " " + polozka.getPrijmeni());
+                       
 
-                        String path = importGmailImage(entry, myService, idPolozky);
-                        addImage(idPolozky, idUser, path);
-
+                        try {
+                             String path = importGmailImage(entry, myService, idPolozky);
+                            addImage(idPolozky, idUser, path);
+                        } catch (Exception e) {
+                        }
                         try {
                             List<StructuredPostalAddress> adressy = entry.getStructuredPostalAddresses();
                             if (adressy != null) {
@@ -681,7 +685,7 @@ public class ItemsManager {
                                         }
                                     } catch (Exception ad) {
                                         //
-                                        //ad.printStackTrace();
+                                        ad.printStackTrace();
                                     }
                                 }
                             }
@@ -810,12 +814,13 @@ public class ItemsManager {
                                 }
                             }
                         } catch (Exception ee) {
-                            //            ee.printStackTrace();
+                            ee.printStackTrace();
                         }
                     }
                     importovano++;
                 }
             } catch (Exception ew) {
+                ew.printStackTrace();
             }
 
         }
@@ -1300,7 +1305,7 @@ public class ItemsManager {
                 Link photoLink = ee.getContactPhotoLink();
                 URL photoUrl = new URL(photoLink.getHref());
 
-                GDataRequest request = myService.createRequest(GDataRequest.RequestType.UPDATE,  photoUrl, new ContentType("image/jpeg"));
+                GDataRequest request = myService.createRequest(GDataRequest.RequestType.UPDATE, photoUrl, new ContentType("image/jpeg"));
                 OutputStream requestStream = request.getRequestStream();
                 requestStream.write(bytes);
                 request.execute();
